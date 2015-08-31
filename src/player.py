@@ -2,12 +2,13 @@ from src.entity import *
 from src.update import *
 from src.constants import *
 import pygame
+import src.globe as globe
 
 class Player(Entity):
-    def __init__(self, Updater):
+    def __init__(self):
         super().__init__()
-        Updater.registerUpdatee(self.update)
-        Updater.registerDrawee(self.draw)
+        globe.Updater.registerUpdatee(self.update)
+        globe.Updater.registerDrawee(self.draw)
         
         self.width = 32
         self.height = 32

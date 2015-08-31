@@ -1,12 +1,12 @@
 import pygame
 import sys
-from src.constants import *
-from src.constants import *
 from src.utilities import *
 from src.update import *
 from src.room import *
 from src.player import *
 from src.loader import *
+from src.constants import *
+import src.globe as globe
 
 pygame.init()
 
@@ -16,17 +16,22 @@ FPS_CLOCK = pygame.time.Clock()
 ELAPSED = 10
 
 fps_meter = fps_meter()
-Loader = Loader()
-Loader.load()
-State = State()
-Updater = Updater()
-Player = Player(Updater)
+
+#singletons handled here
+globe.Loader = Loader()
+globe.Loader.load()
+globe.State = State()
+globe.Updater = Updater()
+
+
+
+Player = Player()
 
 while True:
     DISPLAYSURF.fill(BLUE)
-    if (State.getState() == 'nominal'):
-        Updater.update(ELAPSED)
-        Updater.draw()
+    if (globe.State.getState() == 'nominal'):
+        globe.Updater.update(ELAPSED)
+        globe.Updater.draw()
         
     if (pygame.event.get(pygame.QUIT)):
                 pygame.quit()
