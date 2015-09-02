@@ -11,6 +11,7 @@ class fps_meter:
         if(self.updateCounter == 10):
             self.curFPS = self.calculateFPS()
             self.updateCounter = 0
+
     def updateByMilli(self, elapsedMilliSeconds):
         self.update(1000/elapsedMilliSeconds)
     def calculateFPS(self):

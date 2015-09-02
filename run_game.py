@@ -6,6 +6,8 @@ from src.room import *
 from src.player import *
 from src.loader import *
 from src.constants import *
+from src.room import *
+from src.graphics import *
 import src.globe as globe
 
 pygame.init()
@@ -19,16 +21,24 @@ fps_meter = fps_meter()
 
 #singletons handled here
 globe.Loader = Loader()
-globe.Loader.load()
+globe.Loader.LoadAreas(['Default', 'Common'])
+globe.Loader.LoadAreas(['test'])
 globe.State = State()
 globe.Updater = Updater()
 
+globe.Camera = Camera()
+
+globe.Room = Room('test','1')
+globe.Room.load()
 
 
 Player = Player()
+Player.spawn((50,50))
+
+globe.Camera.start(Player)
 
 while True:
-    DISPLAYSURF.fill(BLUE)
+    globe.Camera.fillScreen()
     if (globe.State.getState() == 'nominal'):
         globe.Updater.update(ELAPSED)
         globe.Updater.draw()

@@ -4,3 +4,5 @@
 global Loader
 global State
 global Updater
+global Room
+global Camera
