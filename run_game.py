@@ -41,6 +41,7 @@ while True:
     globe.Camera.fillScreen()
     if (globe.State.getState() == 'nominal'):
         globe.Updater.update(ELAPSED)
+        globe.Updater.roomCollide()
         globe.Updater.draw()
         
     if (pygame.event.get(pygame.QUIT)):

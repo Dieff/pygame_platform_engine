@@ -32,4 +32,7 @@ class Updater:
         for drawFunc in self.drawees:
             drawFunc()
             
+    def roomCollide(self):
+        for item in self.roomCollidees:
+            item.tileCollide(globe.Room.getTilesAround(item.pos))
     

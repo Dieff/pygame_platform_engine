@@ -1,6 +1,7 @@
 from src.constants import *
 import src.globe as globe
 from src.graphics import *
+import pygame
 
 class Tile:
     def __init__(self, location, index, sprites, is_background, properties, animationDuration=1):
@@ -9,6 +10,9 @@ class Tile:
         self.properties = properties
         self.bg = is_background
         self.anime = Animation(sprites, animationDuration, self.loc, True)
+        
+    def getRect(self):
+        return pygame.Rect(self.index[0]*TILE_SIZE, self.index[1]*TILE_SIZE, TILE_SIZE,TILE_SIZE)
         
     def update(self, elapsed_time, location = False):
         if(not(location)):
