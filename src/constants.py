@@ -1,7 +1,7 @@
 import pygame
 import os.path
 
-FPS_CAP = 60
+FPS_CAP = 100
 
 WINDOW_CAPTION = 'Spunky Doods Game Engine  FPS:'
 

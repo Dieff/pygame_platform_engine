@@ -25,9 +25,11 @@ class Animation:
         
     def draw(self):
         if(self.scrollObj):
-            DISPLAYSURF.blit(self.getCurSprite(), globe.Camera.getDrawPos(self.loc));
+            pos = globe.Camera.getDrawPos(self.loc)
         else:
-            DISPLAYSURF.blit(self.getCurSprite(), self.loc);
+            pos = self.loc
+        if(globe.Camera.amOnScreen(pos)):
+            DISPLAYSURF.blit(self.getCurSprite(), pos);
         
         
 class Camera:
@@ -81,3 +83,10 @@ class Camera:
     
     def fillScreen(self):
         DISPLAYSURF.fill(BLACK)
+        
+    def amOnScreen(self, position, tolerance = TILE_SIZE):
+        if(position[0] > WINDOWWIDTH + tolerance):
+            return False
+        if(position[1] > WINDOWHEIGHT + tolerance):
+            return False
+        return True

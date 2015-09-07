@@ -46,8 +46,16 @@ class Room:
     def getWidth(self):
         return len(self.tiles[0])*TILE_SIZE
     
+    def getTile(self, tileIndex):
+        if(tileIndex[0] < 0 or tileIndex[1]<0):
+            return False
+        if(tileIndex[1] < len(self.tiles) and tileIndex[0] < len(self.tiles[0])):
+            return self.tiles[tileIndex[1]][tileIndex[0]]
+        return False
+    
+    #returns a subset of tiles around a point, allowing for more efficient collision detection
     def getTilesAround(self, pos, TilesAround=2):
-        '''xBot = int(TILE_SIZE * round(float(pos[0])/TILE_SIZE) / TILE_SIZE) - 2
+        xBot = int(TILE_SIZE * round(float(pos[0])/TILE_SIZE) / TILE_SIZE) - 2
         xTop = xBot + 5
         yBot = int(TILE_SIZE * round(float(pos[1])/TILE_SIZE) / TILE_SIZE) - 2
         yTop = yBot + 5
@@ -58,24 +66,16 @@ class Room:
             yBot = 0
             
         if(yTop > len(self.tiles)):
-            yTop = len(self.tiles) - 1
+            yTop = len(self.tiles)
         if(yTop < 2):
             yTop = 2
         if(xTop > len(self.tiles[0])):
-            xTop = len(self.tiles[0]) - 1
+            xTop = len(self.tiles[0])
         if(xTop < 2):
             xTop = 2
             
         rets = []
         for item in self.tiles[yBot:yTop]:
             rets += item[xBot:xTop]
-        
-        #print(xBot, xTop, yBot, yTop)
-        return rets'''
-        
-        rets = []
-        for item in self.tiles:
-            rets += item
-            
         return rets
         

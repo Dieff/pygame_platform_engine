@@ -31,7 +31,7 @@ class Loader:
                 item['data'] = self.loadJson(os.path.join(path, item['file']))
             
             self.data[areaId + '.' + type + '.' + item['name']] = item
-            print(self.data)
+            #print(self.data)
     
     def loadArea(self, area):        
         curPath = os.path.join(PATH_TO_AREAS, area)
@@ -82,6 +82,6 @@ class Loader:
                 if(self.data[key]['code'] == code):
                     return self.data[key]
                 
-        return self.getData('Defaults', 'Tiles', 'blank')
+        return self.getData('Default', 'Tiles', 'blank')
 
         

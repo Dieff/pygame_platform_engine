@@ -45,8 +45,12 @@ while True:
         globe.Updater.draw()
         
     if (pygame.event.get(pygame.QUIT)):
-                pygame.quit()
-                sys.exit()
+        print('quit attempt')
+        pygame.quit()
+        sys.exit()
+        break
+   
+                
     fps_meter.updateByMilli(ELAPSED)
     pygame.display.set_caption(WINDOW_CAPTION + fps_meter.getFPS())
     pygame.display.update()

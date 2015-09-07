@@ -31,8 +31,12 @@ class Entity:
         self.setTempPosition()
         
     def getCollidePoints(self):
-        self.top = (self.npos.left + (self.width/2), self.npos.top)
+        """self.top = (self.npos.left + (self.width/2), self.npos.top)
         self.bottom = (self.npos.left + (self.width/2), self.npos.bottom)
         self.left = (self.npos.left, self.npos.top + (self.height/2))
-        self.right = (self.npos.right, self.npos.top + (self.height/2))
+        self.right = (self.npos.right, self.npos.top + (self.height/2))"""
+        self.top = (self.npos.left + (self.width/2), self.npos.top)
+        self.bottom = (self.npos.left + (self.width/2), self.npos.bottom)
+        self.left = (self.npos.left, self.pos.top + (self.height/2))
+        self.right = (self.npos.right, self.pos.top + (self.height/2))
         
