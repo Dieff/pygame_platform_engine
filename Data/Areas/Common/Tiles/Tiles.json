@@ -12,5 +12,13 @@
 "code":"an1",
 "default":false,
 "animationTime":100
+},
+{
+"name":"wall",
+"files":["1.png"],
+"default":false,
+"code":"1",
+"solid":true,
+"animationTime":0
 }
 ]

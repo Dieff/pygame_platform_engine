@@ -1,10 +1,9 @@
 [
 {
-"name":"blank",
-"files":["1.png"],
-"default":true,
-"code":"1",
-"solid":true,
-"animationTime":0
+"name":"null_tile",
+"solid":false,
+"Default":true,
+"code":"",
+"files":[]
 }
 ]

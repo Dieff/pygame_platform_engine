@@ -3,11 +3,31 @@ import src.globe as globe
 from src.graphics import *
 import pygame
 
-class Tile:
-    def __init__(self, location, index, sprites, is_background, properties, animationDuration=100):
+class LevelBlock:
+    def __init__(self, location, index, properties):
         self.index = index
         self.loc = location
         self.properties = properties
+    
+    def getRect(self):
+        return pygame.Rect(self.index[1]*TILE_SIZE, self.index[0]*TILE_SIZE, TILE_SIZE,TILE_SIZE)
+    
+    def getCenter(self):
+        r = self.getRect()
+        return r.center
+    
+    def update(self, location=False):
+        if(not(location)):
+            location = self.loc
+        self.loc = location
+    
+    def draw(self):
+        pass
+
+class Tile(LevelBlock):
+    def __init__(self, location, index, properties, sprites, is_background, animationDuration=100):
+        super().__init__(location, index, properties)
+        
         self.bg = is_background
         self.anime = Animation(sprites, animationDuration, self.loc, True)
         
@@ -17,18 +37,10 @@ class Tile:
         self.leftCol = 'n'
         self.rightCol = 'n'
         
-    def getRect(self):
-        return pygame.Rect(self.index[1]*TILE_SIZE, self.index[0]*TILE_SIZE, TILE_SIZE,TILE_SIZE)
-        
-    def getCenter(self):
-        r = self.getRect()
-        return r.center
         
     def update(self, elapsed_time, location = False):
-        if(not(location)):
-            location = self.loc
         self.anime.update(elapsed_time, location)
-        self.loc = location
+        super().update(location)
         
     def draw(self):
         self.anime.draw()

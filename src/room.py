@@ -20,7 +20,12 @@ class Room:
                 tData = globe.Loader.getTile(tile)
                 tileX = cCounter*TILE_SIZE
                 tileY = rCounter*TILE_SIZE
-                t = Tile((tileX, tileY),(rCounter, cCounter), tData['data'], False, tData, tData['animationTime'])
+                if(tData['Default']):
+                    t = LevelBlock((tileX, tileY),(rCounter, cCounter), tData)
+                else:
+                    t = Tile((tileX, tileY),(rCounter, cCounter), tData, tData['data'], False, tData['animationTime'])
+                    
+                
                 self.tiles[rCounter].append(t)
                 cCounter += 1
             rCounter += 1

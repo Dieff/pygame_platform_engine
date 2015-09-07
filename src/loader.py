@@ -32,7 +32,8 @@ class Loader:
                 
                 if(not('animationTime' in item)):
                     item['animationTime'] = 1
-                
+                if(not('Default' in item)):
+                    item['Default'] = False
                 
             elif(type == 'Sprites'):
                 item['data'] = self.loadImage(os.path.join(path, item['file']))
