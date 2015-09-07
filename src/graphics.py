@@ -20,6 +20,7 @@ class Animation:
         
         if(self.timeCounter > self.frameDuration and len(self.frames) > 0):
             self.curSpriteIndex += 1
+            self.timeCounter = 0
             if(self.curSpriteIndex == len(self.frames)):
                 self.curSpriteIndex = 0
         

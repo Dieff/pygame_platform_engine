@@ -1,9 +1,10 @@
 [
 {
 "name":"blank",
-"file":"1.png",
+"files":["1.png"],
 "default":true,
 "code":"1",
-"solid":true
+"solid":true,
+"animationTime":0
 }
 ]

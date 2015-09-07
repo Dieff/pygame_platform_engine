@@ -1,8 +1,16 @@
 [{
 "name":"clear_tile_test",
-"file":"ctt.png",
+"files":["ctt.png"],
 "solid":false,
 "code":"0",
 "default":false
+},
+{
+"name":"animation_test",
+"files":["anime1.png","anime2.png","anime3.png","anime4.png","anime5.png","anime6.png","anime7.png","anime8.png","anime9.png","anime10.png","anime11.png"],
+"solid":false,
+"code":"an1",
+"default":false,
+"animationTime":100
 }
 ]

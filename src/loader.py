@@ -23,8 +23,17 @@ class Loader:
         jsonData = self.loadJson(os.path.join(path, type + '.json'))
         for item in jsonData:
             item['type'] = type
+            
+            #handle loading of data and make sure that any missing properties will be defined for later use
             if(type == 'Tiles'):
-                item['data'] = self.loadImage(os.path.join(path, item['file']))
+                item['data'] = []
+                for frame in item['files']:
+                    item['data'].append(self.loadImage(os.path.join(path, frame)))
+                
+                if(not('animationTime' in item)):
+                    item['animationTime'] = 1
+                
+                
             elif(type == 'Sprites'):
                 item['data'] = self.loadImage(os.path.join(path, item['file']))
             elif(type == 'Rooms'):

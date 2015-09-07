@@ -38,6 +38,7 @@ globe.Camera = Camera()
 globe.Camera.start(Player)
 
 while True:
+    #print(ELAPSED)
     globe.Camera.fillScreen()
     if (globe.State.getState() == 'nominal'):
         globe.Updater.update(ELAPSED)

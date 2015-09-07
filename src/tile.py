@@ -4,7 +4,7 @@ from src.graphics import *
 import pygame
 
 class Tile:
-    def __init__(self, location, index, sprites, is_background, properties, animationDuration=1):
+    def __init__(self, location, index, sprites, is_background, properties, animationDuration=100):
         self.index = index
         self.loc = location
         self.properties = properties
