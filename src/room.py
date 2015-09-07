@@ -28,7 +28,6 @@ class Room:
             
     def load(self):
         self.roomData = globe.Loader.getData(self.areaId, 'Rooms', self.roomId)
-        print(self.roomData)
         self.populateTiles()
         
     def update(self, elapsed_time):

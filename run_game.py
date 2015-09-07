@@ -26,7 +26,6 @@ globe.Loader.LoadAreas(['test'])
 globe.State = State()
 globe.Updater = Updater()
 
-globe.Camera = Camera()
 
 globe.Room = Room('test','1')
 globe.Room.load()
@@ -35,6 +34,7 @@ globe.Room.load()
 Player = Player()
 Player.spawn((50,50))
 
+globe.Camera = Camera()
 globe.Camera.start(Player)
 
 while True:

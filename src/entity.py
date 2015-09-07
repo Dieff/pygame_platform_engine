@@ -30,12 +30,9 @@ class Entity:
     def update(self, elapsed):
         self.setTempPosition()
         
-    def createCollisionRects(self):
-        self.up = pygame.Rect(self.npos[0] + 1, self.npos[1] + 1, self.width-2, (self.height/2)-2)
-        self.down = pygame.Rect(self.npos[0] + 1, self.npos[1] + (self.height/2)+1, self.width-2, (self.height/2 -2))
-        self.left = pygame.Rect(self.npos[0] + 1, self.npos[1] + 1, (self.width / 2) -2, self.height - 2)
-        self.right = pygame.Rect(self.npos[0] + (self.width/2)+1, self.npos[1] + 1, (self.width / 2) -2, self.height - 2)
-        
-    '''def collide(self, side, object):
-        print('ouch', side, object, self.pos)'''
+    def getCollidePoints(self):
+        self.top = (self.npos.left + (self.width/2), self.npos.top)
+        self.bottom = (self.npos.left + (self.width/2), self.npos.bottom)
+        self.left = (self.npos.left, self.npos.top + (self.height/2))
+        self.right = (self.npos.right, self.npos.top + (self.height/2))
         

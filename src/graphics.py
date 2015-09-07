@@ -48,24 +48,30 @@ class Camera:
         #Handling x scroll
         if(globe.Room.getWidth() <= WINDOWWIDTH):
             self.realPlayerPos = (self.player.pos[0], self.realPlayerPos[1])
-        elif(self.player.pos[0] > WINDOWWIDTH/2 and self.player.pos[0] < globe.Room.getWidth() - (WINDOWWIDTH /2)):
+        elif(self.player.pos[0] > WINDOWWIDTH/2 and self.player.pos[0] <= globe.Room.getWidth() - (WINDOWWIDTH /2)):
             self.offsetX = self.player.pos[0] - self.idealPlayerPos[0]
             self.realPlayerPos = (self.idealPlayerPos[0], self.realPlayerPos[1])
         else:
             self.realPlayerPos = (self.player.pos[0], self.realPlayerPos[1])
             if(self.player.pos[0] > globe.Room.getWidth() - (WINDOWWIDTH /2)):
                 self.realPlayerPos = (WINDOWWIDTH - (globe.Room.getWidth() - self.player.pos[0]),self.realPlayerPos[1])
+                self.offsetX = globe.Room.getWidth() - (WINDOWWIDTH)
+            else:
+                self.offsetX = 0
             
         #Handling Y scroll    
         if(globe.Room.getHeight() <= WINDOWHEIGHT):
             self.realPlayerPos = (self.realPlayerPos[0], self.player.pos[1])
-        elif(self.player.pos[1] > WINDOWHEIGHT/2 and self.player.pos[1] < globe.Room.getHeight() - (WINDOWHEIGHT /2)):    
+        elif(self.player.pos[1] > WINDOWHEIGHT/2 and self.player.pos[1] <= globe.Room.getHeight() - (WINDOWHEIGHT /2)):    
             self.offsetY = self.player.pos[1] - self.idealPlayerPos[1]
             self.realPlayerPos = (self.realPlayerPos[0], self.idealPlayerPos[1])
         else:
             self.realPlayerPos = (self.realPlayerPos[0], self.player.pos[1])
             if(self.player.pos[1] > globe.Room.getHeight() - (WINDOWHEIGHT /2)):
                 self.realPlayerPos = (self.realPlayerPos[0], (WINDOWHEIGHT - (globe.Room.getHeight() - self.player.pos[1])))
+                self.offsetY = globe.Room.getHeight() - (WINDOWHEIGHT)
+            else:
+                self.offsetY = 0
         
     def getDrawPos(self, pos):
         return (pos[0] - self.offsetX, pos[1] - self.offsetY)

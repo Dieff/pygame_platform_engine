@@ -1,3 +1,5 @@
+import math
+
 class fps_meter:
     def __init__(self):
         self.last_measurements = []
@@ -31,3 +33,9 @@ class State:
         return self.state
     def setState(self, newState):
         self.state = newState
+        
+        
+def getDistance(pointA, pointB):
+    dX = abs(pointB[0] - pointA[0])
+    dY = abs(pointB[1] - pointA[1])
+    return math.sqrt(dX**2 + dY**2)

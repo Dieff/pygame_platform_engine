@@ -12,7 +12,11 @@ class Tile:
         self.anime = Animation(sprites, animationDuration, self.loc, True)
         
     def getRect(self):
-        return pygame.Rect(self.index[0]*TILE_SIZE, self.index[1]*TILE_SIZE, TILE_SIZE,TILE_SIZE)
+        return pygame.Rect(self.index[1]*TILE_SIZE, self.index[0]*TILE_SIZE, TILE_SIZE,TILE_SIZE)
+        
+    def getCenter(self):
+        r = self.getRect()
+        return r.center
         
     def update(self, elapsed_time, location = False):
         if(not(location)):
