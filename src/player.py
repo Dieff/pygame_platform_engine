@@ -13,8 +13,6 @@ class Player(Entity):
         
         self.width = 32
         self.height = 32
-                
-        self.oldTiles = []
         
         self.jumpJuice = 0
         self.jumpCounter = 0
@@ -24,6 +22,8 @@ class Player(Entity):
         self.running = False
         
         self.maxJump = 15
+        
+        self.colRecursionDepth = 0
                 
     def update(self, elapsedTime):
         key_states = pygame.key.get_pressed()
@@ -78,30 +78,33 @@ class Player(Entity):
         self.setTempPosition(elapsedTime)
         self.old_states = key_states
         
+        self.colRecursionDepth = 0
+        
     def draw(self):
         pdp = globe.Camera.getPlayerDrawPos()
         pygame.draw.rect(DISPLAYSURF, RED, (pdp[0], pdp[1], self.width, self.height))
         
-        '''for item in self.oldTiles:
-            pos = globe.Camera.getDrawPos(item.loc)
-            pygame.draw.rect(DISPLAYSURF, CYAN, (pos[0], pos[1], 32, 32))'''
-            
-        
-    def spawn(self, loc):
-        self.pos = loc
-        
-        
     def tileCollide(self, tiles):
-        self.oldTiles = tiles
+        #A shitty fix for collision bugs
+        #make this better!!!
+        self.colRecursionDepth +=1
+        if(self.colRecursionDepth > 900):
+            print('ERROR caught in collision detection. crashing prevented. velocity killed')
+            self.npos = self.pos
+            self.setPermanentPosition()
+            self.vel = (0,0)
+            return True
         
+        colHappened = False
         
-        currect = self.npos#pygame.Rect(self.npos[0]+1, self.npos[1]+1, self.width-2, self.height-2)
+        self.getCollidePoints()
+        currect = self.npos
         for item in tiles:
             ir = item.getRect()
             if(currect.colliderect(ir)):
                 if(item.properties['solid']):
-                    tileCenter = (ir.center)
                     self.getCollidePoints()
+                    tileCenter = (ir.center)
                     #Creates an array of the distances between collidepoints and tile center
                     distances = [getDistance(self.top, tileCenter),getDistance(self.bottom, tileCenter),getDistance(self.left, tileCenter),getDistance(self.right,tileCenter)]
                     #determines smallest distance (index of smallest number in distances)
@@ -123,6 +126,8 @@ class Player(Entity):
                         
                         if(abs(self.npos.top - self.pos.top) >= TILE_SIZE):
                             print('ERROR in top side collision detection')
+                            
+                        colHappened = True
 
                     elif(smallestIndex == 1):
                         #Bottom collision
@@ -145,6 +150,7 @@ class Player(Entity):
                             
                         self.jumpJuice = 75
 
+                        colHappened = True
                         
                     elif(smallestIndex == 2):
                         #Left collision
@@ -160,6 +166,7 @@ class Player(Entity):
                         if(abs(self.npos.left - self.pos.left)>=TILE_SIZE):
                             print('ERROR in left side collision detection')
                         
+                        colHappened = True
                         
                     else:
                         #Right Collision
@@ -174,6 +181,21 @@ class Player(Entity):
                     
                         if(abs(self.npos.left - self.pos.left)>=TILE_SIZE):
                             print('ERROR in right side collision detection')
+                            
+                        colHappened = True
+                        
+            #we run the tile collision algorithm until no more collisions are detected
+            #occasionally things break and we get infinite recursion
+            #this helps debug things
+            if(colHappened):
+                try:
+                    self.tileCollide(tiles)
+                except RuntimeError:
+                    print('Error Caught in collision detection', self.colRecursionDepth)
+                    return True
+                self.colHappened = False
+                        
+                
         
         self.setPermanentPosition()
         
