@@ -2,14 +2,17 @@ import src.globe as globe
 from src.constants import *
 from src.tile import *
 
+from src.entities.door import *
+
 class Room:
-    def __init__(self, areaId, roomId):
-        self.areaId = areaId
-        self.roomId = roomId
+    def __init__(self):
+        self.areaId = ''
+        self.roomId = ''
         globe.Updater.registerDrawee(self.draw)
         globe.Updater.registerUpdatee(self.update)
         self.tiles = []
         self.backgroundTiles = []
+        self.entities = []
         self.hasBackground = False
         
     def populateTiles(self):
@@ -49,13 +52,38 @@ class Room:
             rCounter+=1
             cCounter = 0
             
-    def load(self):
+    def load(self, areaId, roomId):
+        self.areaId = areaId
+        self.roomId = roomId
+        self.tiles = []
+        self.backgroundTiles = []
+        self.hasBackground = False
+        for item in self.entities:
+            item.unRegister()
+        self.entities = []
+        
         self.roomData = globe.Loader.getData(self.areaId, 'Rooms', self.roomId)
+        self.roomData.update(self.roomData['data'])
         self.populateTiles()
-        if('bgTiles' in self.roomData['data']):
-            if(len(self.roomData['data']['bgTiles'])>0):
+        if('bgTiles' in self.roomData):
+            if(len(self.roomData['bgTiles'])>0):
                 self.hasBackground = True
                 self.populateBackgroundTiles()
+                
+        if(self.roomData['doEntities']):
+            for entity in self.roomData['entities']:
+                if(not 'posX' in entity):
+                    entity['posX'] = 0
+                if(not 'posY' in entity):
+                    entity['posY'] = 0   
+                if(not 'action' in entity):
+                    entity['action'] = ''  
+                
+                baby = globe.Loader.getNewEntity(entity['name'])
+                baby.register()
+                baby.spawn((entity['posX'],entity['posY']))
+                baby.addData(entity)
+                self.entities.append(baby)
         
     def update(self, elapsed_time):
         if(self.hasBackground):

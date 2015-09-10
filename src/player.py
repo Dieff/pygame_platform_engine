@@ -6,7 +6,7 @@ import pygame
 import src.globe as globe
 import math
 
-class Player(Entity):
+class Player(PhysicsEntity):
     def __init__(self):
         super().__init__()
         self.registerAll()
@@ -37,9 +37,6 @@ class Player(Entity):
         speddd = 0.02
         
         self.jumpJuice -= elapsedTime
-        
-        if(key_states[pygame.K_DOWN]):
-            self.vel = (self.vel[0], self.vel[1]+speddd)
             
         if(key_states[pygame.K_UP]):
             self.vel = (self.vel[0], self.vel[1]-0.05)

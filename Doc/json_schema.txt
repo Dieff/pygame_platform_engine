@@ -28,7 +28,14 @@ ROOMS
 		bgScollFactorX - integer how much slower background scrolls x dir (if its 1, nothing happens)
 		brScrollFactorY - integer how much slower background scrolls y dir (if its 1, nothing happens)
 		*bgTileSize - the size of background tiles, defaults to standard tile size
-
+		entities - list of entity types that will be placed in the room
+		
+		entity
+			name - the name of the entity
+			posX - the initial x position of the entity
+			posY - the initial y position of the entity
+			action - a data chunk that will give the entity object some clue as to what to do with itself
+			*startAfter - this entity will only be spawned after a certain global event occurs
 
 *NOISES
 

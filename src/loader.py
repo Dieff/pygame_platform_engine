@@ -1,12 +1,26 @@
 import json
 import pygame
 from src.constants import *
+from src.entity import *
+
+from src.entities.door import *
+
 import os.path
 
 class Loader:
     def __init__(self):
         self.data = dict()
         self.finishedAreas = []
+        self.entities = {
+                         "door":Door
+                         }
+      
+    def getNewEntity(self, entitiyId):
+        if(entitiyId in self.entities):
+            fetus = self.entities[entitiyId]
+            return fetus()
+        else:
+            return Entity()
         
     def loadJson(self, jsonPath):
         jFile = open(jsonPath,'r')
@@ -48,6 +62,11 @@ class Loader:
                     item['data']['brScrollFactorY'] = 3
                 if(not('bgTileSize' in item['data'])):
                     item['data']['bgTileSize'] = TILE_SIZE
+                    
+                if(not('entities' in item['data'])):
+                    item['data']['doEntities'] = False
+                else:
+                    item['data']['doEntities'] = True
             
             self.data[areaId + '.' + type + '.' + item['name']] = item
             #print(self.data)

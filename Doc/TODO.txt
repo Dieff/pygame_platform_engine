@@ -5,3 +5,5 @@ Change room.getTilesaround so that number of tiles can be specified
 make tiles stored in tilemaps instead of in individual files
 
 test out graphics.split_surface
+
+make it so that invalid json files dont crash game
