@@ -93,3 +93,15 @@ class Tile(LevelBlock):
             return self.rightCol
         return True
     
+    
+class BackgroundTile():
+    def __init__(self, index, location, sprites, animationDuration=10):
+        self.index = index
+        self.startingLoc = location
+        self.anime = Animation(sprites, animationDuration, location)
+        
+    def update(self, elapsed_time):
+        self.anime.update(elapsed_time, globe.Camera.getBackgroundDrawPos(self.startingLoc))
+        
+    def draw(self):
+        self.anime.draw()

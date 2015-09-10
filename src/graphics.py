@@ -82,6 +82,24 @@ class Camera:
     def getPlayerDrawPos(self):
         return self.realPlayerPos
     
+    def getBackgroundDrawPos(self, pos):
+        scrollFactorX = globe.Room.getPref('bgScollFactorX')
+        scrollFactorY = globe.Room.getPref('brScrollFactorY')
+        if(not(globe.Room.getPref('bgConstantScroll'))):
+            if(scrollFactorX == 0):
+                newX = self.getDrawPos(pos)[0]
+            else:
+                newX = pos[0]-(self.offsetX/scrollFactorX)
+            if(scrollFactorY == 0):
+                newY = self.getDrawPos(pos)[1]
+            else:
+                newY = pos[1] - (self.offsetY/scrollFactorY)
+            return (newX, newY)
+        else: 
+            ofX = self.player.pos[0]/scrollFactorX
+            ofY = self.player.pos[1]/scrollFactorY
+            return (pos[0]-ofX, pos[1]-ofY)
+    
     def fillScreen(self):
         DISPLAYSURF.fill(BLACK)
         

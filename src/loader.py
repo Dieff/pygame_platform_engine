@@ -39,6 +39,15 @@ class Loader:
                 item['data'] = self.loadImage(os.path.join(path, item['file']))
             elif(type == 'Rooms'):
                 item['data'] = self.loadJson(os.path.join(path, item['file']))
+                
+                if(not('bgConstantScroll' in item['data'])):
+                    item['data']['bgConstantScroll'] = False
+                if(not('bgScollFactorX' in item['data'])):
+                    item['data']['bgScollFactorX'] = 3 
+                if(not('brScrollFactorY' in item['data'])):
+                    item['data']['brScrollFactorY'] = 3
+                if(not('bgTileSize' in item['data'])):
+                    item['data']['bgTileSize'] = TILE_SIZE
             
             self.data[areaId + '.' + type + '.' + item['name']] = item
             #print(self.data)

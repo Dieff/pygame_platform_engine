@@ -6,5 +6,9 @@
 {
 "name":"2",
 "file":"2.json"
+},
+{
+"name":"bg-test",
+"file":"bgtest.json"
 }
 ]

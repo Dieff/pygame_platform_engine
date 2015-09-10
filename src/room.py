@@ -9,6 +9,8 @@ class Room:
         globe.Updater.registerDrawee(self.draw)
         globe.Updater.registerUpdatee(self.update)
         self.tiles = []
+        self.backgroundTiles = []
+        self.hasBackground = False
         
     def populateTiles(self):
         rows = self.roomData['data']['tiles']
@@ -17,13 +19,13 @@ class Room:
         for row in rows:
             self.tiles.append([])
             for tile in row:
-                tData = globe.Loader.getTile(tile)
+                tileData = globe.Loader.getTile(tile)
                 tileX = cCounter*TILE_SIZE
                 tileY = rCounter*TILE_SIZE
-                if(tData['Default']):
-                    t = LevelBlock((tileX, tileY),(rCounter, cCounter), tData)
+                if(tileData['Default']):
+                    t = LevelBlock((tileX, tileY),(rCounter, cCounter), tileData)
                 else:
-                    t = Tile((tileX, tileY),(rCounter, cCounter), tData, tData['data'], False, tData['animationTime'])
+                    t = Tile((tileX, tileY),(rCounter, cCounter), tileData, tileData['data'], False, tileData['animationTime'])
                     
                 
                 self.tiles[rCounter].append(t)
@@ -31,16 +33,44 @@ class Room:
             rCounter += 1
             cCounter = 0
             
+    def populateBackgroundTiles(self):
+        sets = self.roomData['data']['bgTiles']
+        rCounter = 0
+        cCounter = 0
+        for row in sets:
+            self.backgroundTiles.append([])
+            for tile in row:
+                tileData = globe.Loader.getTile(tile)
+                tileX = cCounter*TILE_SIZE
+                tileY = rCounter*TILE_SIZE
+                newTile = BackgroundTile((rCounter, cCounter),(tileX,tileY),tileData['data'],tileData['animationTime'])
+                self.backgroundTiles[rCounter].append(newTile)
+                cCounter += 1
+            rCounter+=1
+            cCounter = 0
+            
     def load(self):
         self.roomData = globe.Loader.getData(self.areaId, 'Rooms', self.roomId)
         self.populateTiles()
+        if('bgTiles' in self.roomData['data']):
+            if(len(self.roomData['data']['bgTiles'])>0):
+                self.hasBackground = True
+                self.populateBackgroundTiles()
         
     def update(self, elapsed_time):
+        if(self.hasBackground):
+            for row in self.backgroundTiles:
+                for tile in row:
+                    tile.update(elapsed_time)
         for row in self.tiles:
             for tile in row:
                 tile.update(elapsed_time)
         
     def draw(self):
+        if(self.hasBackground):
+            for row in self.backgroundTiles:
+                for tile in row:
+                    tile.draw()
         for row in self.tiles:
             for tile in row:
                 tile.draw()
@@ -83,4 +113,13 @@ class Room:
         for item in self.tiles[yBot:yTop]:
             rets += item[xBot:xTop]
         return rets
+    
+    def getPref(self, pref):
+        if(not(pref in self.roomData['data'])):
+            if(not(pref in self.roomData)):
+                return False
+            else:
+                return self.roomData[pref]
+        else:
+            return self.roomData['data'][pref]
         

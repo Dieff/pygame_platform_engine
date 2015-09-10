@@ -1,0 +1,38 @@
+This file has documentation of all of the options for json data files
+
+params that start with ! are required (! not really there)
+params that start with * are planned but not yet implemented
+
+
+*SPRITES
+	
+
+TILES
+	!name - the name of the room for loading purposes
+	!files - an array of the files of frames (or 1 frame)
+	solid - bool, whether or not tile is solid
+	!code - the code for the tile in a room tilemap
+	Default - don't worry about this
+	animationTime - how lond each frame of the animated tile should last
+
+ROOMS
+	!name - the name of the room for loading purposes
+	*displayName - name of the room as shown to player
+	!file - the file that holds the tilemap of the room
+	
+	room
+		!name - the name of the room for loading purposes
+		!tiles - a map of the foreground tiles of the room
+		bgTiles - the background tilemap for the room, should be smaller than tiles
+		bgConstantScroll - bool, background will always scroll relative to player or no
+		bgScollFactorX - integer how much slower background scrolls x dir (if its 1, nothing happens)
+		brScrollFactorY - integer how much slower background scrolls y dir (if its 1, nothing happens)
+		*bgTileSize - the size of background tiles, defaults to standard tile size
+
+
+*NOISES
+
+
+
+*MUSIC
+

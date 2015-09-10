@@ -27,7 +27,7 @@ globe.State = State()
 globe.Updater = Updater()
 
 
-globe.Room = Room('test','1')
+globe.Room = Room('test','bg-test')
 globe.Room.load()
 
 
