@@ -21,16 +21,20 @@ class Player(PhysicsEntity):
         
         self.running = False
         
-        self.maxJump = 15
+        self.maxJump = 250
+        self.maxJumpTime = 100
+        self.gravity = 0.03
+        self.speedLimit = 1
+        self.yspeedLimit = 0.5#0.4
+        self.xSpeedLimit = 0.2
+        
         
         self.colRecursionDepth = 0
                 
     def update(self, elapsedTime):
         key_states = pygame.key.get_pressed()
         
-        self.vel = (self.vel[0],self.vel[1] + (0.03))
-        
-        self.speedLimit = 1
+        self.vel = (self.vel[0],self.vel[1] + self.gravity)
         
         self.running = False
         
@@ -52,27 +56,30 @@ class Player(PhysicsEntity):
         if(key_states[pygame.K_f]):
             if(self.old_states[pygame.K_f]):
                 self.jumpJuice = 0
-                self.jumpCounter -= 1
-                if(self.jumpCounter > 0):
-                    self.vel = (self.vel[0], self.vel[1]-0.075 * self.jumpCounter)
+                self.jumpCounter -= elapsedTime
+                if(self.jumpCounter > 0 and self.jumpJuice <= 0):
+                    self.vel = (self.vel[0], self.vel[1]-0.025 * self.jumpCounter)
+                else:
+                    key_states[pygame.K_f]
             elif(self.jumpJuice > 0):
                 self.jumpCounter = self.maxJump
+                self.jumpJuice = 0
+        #this prevents double jump
+        else:
+            self.jumpCounter = 0
 
-            
-            
-        yspeedLimit = 0.4
-        xSpeedLimit = 0.2
-        if(self.vel[0] > xSpeedLimit):
-            self.vel = (xSpeedLimit, self.vel[1])
-        if(self.vel[0] < xSpeedLimit*-1):
-            self.vel = (xSpeedLimit*-1, self.vel[1])
-        if(self.vel[1] > yspeedLimit):
-            self.vel = (self.vel[0], yspeedLimit)
-        if(self.vel[1] < yspeedLimit*-1):
-            self.vel = (self.vel[0], yspeedLimit*-1)
+        if(self.vel[0] > self.xSpeedLimit):
+            self.vel = (self.xSpeedLimit, self.vel[1])
+        if(self.vel[0] < self.xSpeedLimit*-1):
+            self.vel = (self.xSpeedLimit*-1, self.vel[1])
+        if(self.vel[1] > self.yspeedLimit):
+            self.vel = (self.vel[0], self.yspeedLimit)
+        if(self.vel[1] < self.yspeedLimit*-1):
+            self.vel = (self.vel[0], self.yspeedLimit*-1)
             
             
         self.setTempPosition(elapsedTime)
+        self.old_states = []
         self.old_states = key_states
         
         self.colRecursionDepth = 0
@@ -85,7 +92,7 @@ class Player(PhysicsEntity):
         #A shitty fix for collision bugs
         #make this better!!!
         self.colRecursionDepth +=1
-        if(self.colRecursionDepth > 900):
+        if(self.colRecursionDepth > 400):
             print('ERROR caught in collision detection. crashing prevented. velocity killed')
             self.npos = self.pos
             self.setPermanentPosition()
@@ -145,7 +152,7 @@ class Player(PhysicsEntity):
                         else:
                             self.vel = (self.vel[0], 0)
                             
-                        self.jumpJuice = 75
+                        self.jumpJuice = self.maxJumpTime
 
                         colHappened = True
                         

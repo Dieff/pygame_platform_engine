@@ -5,7 +5,9 @@ params that start with * are planned but not yet implemented
 
 
 *SPRITES
-	
+	!name - the name of the sprite for loading purposes
+	!file - the spritesheet
+	!frames - array of 
 
 TILES
 	!name - the name of the room for loading purposes

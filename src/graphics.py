@@ -24,13 +24,32 @@ class Animation:
             if(self.curSpriteIndex == len(self.frames)):
                 self.curSpriteIndex = 0
         
-    def draw(self):
+    def getDrawPos(self):
         if(self.scrollObj):
             pos = globe.Camera.getDrawPos(self.loc)
         else:
             pos = self.loc
+        return pos
+        
+    def draw(self):
+        pos = self.getDrawPos()
         if(globe.Camera.amOnScreen(pos)):
             DISPLAYSURF.blit(self.getCurSprite(), pos);
+        
+       
+class DebugAnimation(Animation):
+    def __init__(self, location, size, color, scrollObj=False):
+        super().__init__([],5,location,scrollObj)
+        self.size = size
+        self.color = color
+        
+    def update(self, elapsed_time, loc=False):
+        if(loc):
+            self.loc = loc
+            
+    def draw(self):
+        pos = self.getDrawPos()
+        pygame.draw.rect(DISPLAYSURF, self.color, pygame.Rect(pos[0],pos[1],self.size[0], self.size[1]))
         
         
 class Camera:

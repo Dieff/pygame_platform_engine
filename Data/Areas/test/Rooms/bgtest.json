@@ -77,8 +77,8 @@
 "posY":896,
 "action":{
 	"room":"1",
-	"newPosX":50,
-	"newPosY":500
+	"newPosX":32,
+	"newPosY":1024
 	}
 }
 ]
