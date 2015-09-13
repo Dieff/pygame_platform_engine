@@ -7,10 +7,11 @@ class Door(Entity):
     def __init__(self):
         super().__init__()
         globe.Updater.registerPlayerCollidee(self)
+        self.curSprite = globe.Loader.getSprite('common', 'door')
         
     def draw(self):
         pos = globe.Camera.getDrawPos(self.pos)
-        pygame.draw.rect(DISPLAYSURF, GREEN, pygame.Rect(pos[0],pos[1],self.width, self.height))
+        super().draw(pos)
         
     def playerCollide(self, playerObj):
         key_states = pygame.key.get_pressed()

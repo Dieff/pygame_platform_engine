@@ -7,7 +7,14 @@ params that start with * are planned but not yet implemented
 *SPRITES
 	!name - the name of the sprite for loading purposes
 	!file - the spritesheet
-	!frames - array of 
+	frameWidth - the width in pixels of each frame
+	frameHeight - the heights in pixes of each frame
+	!frames - array of frame objects
+		frame
+			rowX - x coord to cut out frame
+			rowY -  coord to cut out frame
+	
+	animationTime, the amount of time each animation should run
 
 TILES
 	!name - the name of the room for loading purposes
@@ -15,7 +22,7 @@ TILES
 	solid - bool, whether or not tile is solid
 	!code - the code for the tile in a room tilemap
 	Default - don't worry about this
-	animationTime - how lond each frame of the animated tile should last
+	animationTime - how long each frame of the animated tile should last
 
 ROOMS
 	!name - the name of the room for loading purposes

@@ -33,15 +33,16 @@ Player = Player()
 globe.Updater.setPlayer(Player)
 
 
-Player.spawn((50,50))
+Player.spawn((1200,896))
 
 globe.Camera = Camera()
 globe.Camera.start(Player)
 
-d = Door()
-
 while True:
+    delay = False
     #print(ELAPSED)
+    #events = pygame.event.get()
+    
     globe.Camera.fillScreen()
     if (globe.State.getState() == 'nominal'):
         globe.Updater.update(ELAPSED)
@@ -49,14 +50,24 @@ while True:
         globe.Updater.playerCollide()
         globe.Updater.draw()
         
-    if (pygame.event.get(pygame.QUIT)):
-        print('quit attempt')
-        pygame.quit()
-        sys.exit()
-        break
-   
-                
+    #handling quit events?
+    for event in pygame.event.get():
+        if(event.type == pygame.QUIT):
+            print('quit attempt')
+            pygame.quit()
+            sys.exit()
+            break
+
+   #debug stuff
+    if(pygame.key.get_pressed()[pygame.K_o]):
+        print(Player.pos)
+    if(pygame.key.get_pressed()[pygame.K_p]):
+        input()
+        delay = True
+               
     fps_meter.updateByMilli(ELAPSED)
     pygame.display.set_caption(WINDOW_CAPTION + fps_meter.getFPS())
-    pygame.display.update()
+    pygame.display.flip()
     ELAPSED = FPS_CLOCK.tick(FPS_CAP)
+    if(delay):
+        ELAPSED = 30

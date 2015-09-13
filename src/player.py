@@ -2,6 +2,7 @@ from src.entity import *
 from src.update import *
 from src.constants import *
 from src.utilities import *
+from src.graphics import *
 import pygame
 import src.globe as globe
 import math
@@ -11,8 +12,8 @@ class Player(PhysicsEntity):
         super().__init__()
         self.registerAll()
         
-        self.width = 32
-        self.height = 32
+        self.width = 28
+        self.height = 30
         
         self.jumpJuice = 0
         self.jumpCounter = 0
@@ -21,24 +22,49 @@ class Player(PhysicsEntity):
         
         self.running = False
         
-        self.maxJump = 250
+        self.maxJump = 200
         self.maxJumpTime = 100
         self.gravity = 0.03
         self.speedLimit = 1
         self.yspeedLimit = 0.5#0.4
         self.xSpeedLimit = 0.2
         
+        self.xMinSpeed = 0.02
+        self.friction = 0.88
+        
+        self.xAcceleration = 0.05
         
         self.colRecursionDepth = 0
+        
+        self.addSprite('stand-left', globe.Loader.getSprite('common', 'quote-stand-left'))
+        self.addSprite('stand-right', globe.Loader.getSprite('common', 'quote-stand-right'))
+        self.addSprite('walk-left', globe.Loader.getSprite('common', 'quote-walk-left'))
+        self.addSprite('walk-right', globe.Loader.getSprite('common', 'quote-walk-right'))
+        self.addSprite('jumping-right', globe.Loader.getSprite('common', 'quote-jumpUp-right'))
+        self.addSprite('falling-right', globe.Loader.getSprite('common', 'quote-jumpDown-right'))
+        self.addSprite('jumping-left', globe.Loader.getSprite('common', 'quote-jumpUp-left'))
+        self.addSprite('falling-left', globe.Loader.getSprite('common', 'quote-jumpDown-left'))
+        
+        self.orientation = 'left'
+        self.action = 'stand'
+        
+        self.curSprite = self.getSprite()
+        
+        self.onBottom = False
+        self.oldOnBottom = False
+                
+    def getSprite(self):
+        queryString = (self.action + '-' + self.orientation)
+        return super().getSprite(queryString)
                 
     def update(self, elapsedTime):
+        self.curSprite.update(elapsedTime)
+            
         key_states = pygame.key.get_pressed()
         
         self.vel = (self.vel[0],self.vel[1] + self.gravity)
         
         self.running = False
-        
-        speddd = 0.02
         
         self.jumpJuice -= elapsedTime
             
@@ -46,18 +72,21 @@ class Player(PhysicsEntity):
             self.vel = (self.vel[0], self.vel[1]-0.05)
             
         if(key_states[pygame.K_LEFT]):
-            self.vel = (self.vel[0]-speddd, self.vel[1])
+            self.vel = (self.vel[0]-self.xAcceleration, self.vel[1])
             self.running = True
+            self.orientation = 'left'
             
         if(key_states[pygame.K_RIGHT]):
-            self.vel = (self.vel[0]+speddd, self.vel[1])
+            self.vel = (self.vel[0]+self.xAcceleration, self.vel[1])
             self.running = True
+            self.orientation = 'right'
             
         if(key_states[pygame.K_f]):
             if(self.old_states[pygame.K_f]):
                 self.jumpJuice = 0
                 self.jumpCounter -= elapsedTime
                 if(self.jumpCounter > 0 and self.jumpJuice <= 0):
+                    self.action = 'jumping'
                     self.vel = (self.vel[0], self.vel[1]-0.025 * self.jumpCounter)
                 else:
                     key_states[pygame.K_f]
@@ -84,9 +113,16 @@ class Player(PhysicsEntity):
         
         self.colRecursionDepth = 0
         
+        self.action = 'stand'
+        if(self.running and self.action == 'stand'):
+            self.action = 'walk'
+
+        
     def draw(self):
+        self.curSprite = self.getSprite()
         pdp = globe.Camera.getPlayerDrawPos()
-        pygame.draw.rect(DISPLAYSURF, RED, (pdp[0], pdp[1], self.width, self.height))
+        if(self.curSprite):
+            self.curSprite.draw((pdp[0] + int(self.drawWidthDifference()/2), pdp[1] + int(self.drawHeightDifference()/2)))
         
     def tileCollide(self, tiles):
         #A shitty fix for collision bugs
@@ -143,18 +179,18 @@ class Player(PhysicsEntity):
                         okY = abs(dY - badY)
                         self.npos = pygame.Rect(self.npos.left, self.pos.top+okY, self.width, self.height)
                         
-                        Friction = 0.015
                         
-                        if(self.vel[0]>Friction and not(self.running)):
-                            self.vel = (self.vel[0]-Friction, 0)
-                        elif(self.vel[0]<Friction and not self.running):
-                            self.vel = (self.vel[0]+Friction, 0)
-                        else:
-                            self.vel = (self.vel[0], 0)
+                        if(abs(self.vel[0]) >= self.xMinSpeed and not(self.running)):
+                            self.vel = (self.vel[0]*self.friction, self.vel[1])
+                            print('do friction')
+                        elif(not(self.running)):
+                            self.vel = (0, self.vel[1])
+                            print('kill friction')
                             
                         self.jumpJuice = self.maxJumpTime
 
                         colHappened = True
+                        self.onBottom = True
                         
                     elif(smallestIndex == 2):
                         #Left collision

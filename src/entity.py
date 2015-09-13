@@ -1,4 +1,5 @@
 from src.constants import *
+from src.graphics import *
 import src.globe as globe
 import pygame
 
@@ -8,15 +9,19 @@ class Entity:
         self.height = TILE_SIZE
         self.pos = pygame.Rect(0,0,self.width,self.height)
         self.data = {}
+        self.curSprite = False
+        self.sprites = {}
         
     def addData(self, data):
         self.data.update(data)
         
     def update(self, elapsed_time):
-        pass
+        if(self.curSprite):
+            self.curSprite.update(elapsed_time)
     
-    def draw(self):
-        pass
+    def draw(self, pos):
+        if(self.curSprite):
+            self.curSprite.draw(pos)
         
     def register(self):
         globe.Updater.registerUpdatee(self.update)
@@ -37,7 +42,28 @@ class Entity:
     
     def tileCollide(self):
         pass
+    
+    
+    
+    def addSprite(self, spriteName, spriteAnimationObject):
+        self.sprites[spriteName] = spriteAnimationObject
         
+    def setSprite(self, name):
+        self.curSprite = self.sprites[spriteName]
+        
+    def getCurSprite(self):
+        return self.curSprite
+    
+    def drawWidthDifference(self):
+        if(self.curSprite):
+            return int(self.width - self.curSprite.getWidth())
+        
+    def drawHeightDifference(self):
+        if(self.curSprite):
+            return int(self.height - self.curSprite.getHeight())
+        
+    def getSprite(self, name):
+        return self.sprites[name]
         
 class PhysicsEntity(Entity):
     def __init__(self):
@@ -67,6 +93,7 @@ class PhysicsEntity(Entity):
         self.pos = self.npos
         
     def update(self, elapsed):
+        super().update(elapsed)
         self.setTempPosition()
         
     def getCollidePoints(self):

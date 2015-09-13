@@ -31,10 +31,17 @@ class Animation:
             pos = self.loc
         return pos
         
-    def draw(self):
-        pos = self.getDrawPos()
+    def draw(self, pos = False):
+        if(not(pos)):
+            pos = self.getDrawPos()
         if(globe.Camera.amOnScreen(pos)):
             DISPLAYSURF.blit(self.getCurSprite(), pos);
+            
+    def getWidth(self):
+        return self.getCurSprite().get_width()
+    
+    def getHeight(self):
+        return self.getCurSprite().get_height()
         
        
 class DebugAnimation(Animation):
@@ -128,23 +135,3 @@ class Camera:
         if(position[1] > WINDOWHEIGHT + tolerance):
             return False
         return True
-    
-    
-def split_surface(surface, w, h):
-    '''This function splits a pygame surface into a list of smaller subsurfaces.
-    The purpose of this function is to provide easy access to individual images
-    in a larger imageset surface.
-
-    The subsurface indexes in an imageset of 3 columns by 2 rows are distributed
-    in the following manner:
-    0 1 2
-    3 4 5
-    '''
-    print('height!!', surface.get_height())
-    print('width', surface.get_width())
-    
-    result = []
-    for y in range(0, surface.get_height(), h):
-        for x in range(0, surface.get_width(), w):
-            result.append(surface.subsurface((x, y), (w, h)))
-    return result

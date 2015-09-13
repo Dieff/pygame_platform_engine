@@ -2,7 +2,7 @@ import json
 import pygame
 from src.constants import *
 from src.entity import *
-
+from src.graphics import *
 from src.entities.door import *
 
 import os.path
@@ -33,6 +33,26 @@ class Loader:
         img.set_colorkey(TRANSPARENT)
         return img
     
+        
+    def splitSurface(self, surface, w, h):
+        '''This function splits a pygame surface into a list of smaller subsurfaces.
+        The purpose of this function is to provide easy access to individual images
+        in a larger imageset surface.
+        
+        The subsurface indexes in an imageset of 3 columns by 2 rows are distributed
+        in the following manner:
+        0 1 2
+        3 4 5
+        '''
+        #print('height!!', surface.get_height())
+        #print('width', surface.get_width())
+    
+        result = []
+        for y in range(0, surface.get_height(), h):
+            for x in range(0, surface.get_width(), w):
+                result.append(surface.subsurface((x, y), (w, h)))
+        return result
+    
     def LoadDataFiles(self, type, areaId, path):
         jsonData = self.loadJson(os.path.join(path, type + '.json'))
         for item in jsonData:
@@ -50,7 +70,29 @@ class Loader:
                     item['Default'] = False
                 
             elif(type == 'Sprites'):
-                item['data'] = self.loadImage(os.path.join(path, item['file']))
+                mainImage = self.loadImage(os.path.join(path, item['file']))
+                sizeX = item['frameWidth']
+                sizeY = item['frameHeight']
+                splitImage = self.splitSurface(mainImage, sizeX, sizeY)
+                #rows = mainImage.get_height()/sizeX
+                cols = mainImage.get_width()/sizeY
+                
+                #print(rows)
+                #print(cols)
+                
+                data = []
+                for sprite in item['frames']:
+                    xIndex = sprite['rowX']
+                    yIndex = sprite['rowY']
+                    data.append(splitImage[int(yIndex*cols + xIndex)])
+                    
+                item['data'] = data
+                
+                if(not('animationTime' in item)):
+                    item['animationTime'] = 1
+                    
+                
+                
             elif(type == 'Rooms'):
                 item['data'] = self.loadJson(os.path.join(path, item['file']))
                 
@@ -121,5 +163,9 @@ class Loader:
                     return self.data[key]
                 
         return self.getData('Default', 'Tiles', 'blank')
+    
+    def getSprite(self, area, name):
+        spriteData = self.getData(area, 'Sprites', name)
+        return Animation(spriteData['data'], spriteData['animationTime'], (0,0))
 
         

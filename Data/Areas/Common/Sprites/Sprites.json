@@ -1,6 +1,136 @@
 [
 {
-"name":"quote",
-"file":"quote.png"
+"name":"quote-stand-left",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-stand-right",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-walk-left",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	},
+	{
+	"rowX":1,
+	"rowY":0
+	},
+	{
+	"rowX":2,
+	"rowY":0
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-walk-right",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":1
+	},
+	{
+	"rowX":1,
+	"rowY":1
+	},
+	{
+	"rowX":2,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-jumpUp-left",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":3,
+	"rowY":0
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-jumpDown-left",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":4,
+	"rowY":0
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-jumpUp-right",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":3,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"quote-jumpDown-right",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":4,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"door",
+"file":"door.png",
+"frameWidth":20,
+"frameHeight":33,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	}
+],
+"animationTime":100
 }
+
 ]
