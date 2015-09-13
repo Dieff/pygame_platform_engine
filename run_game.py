@@ -39,8 +39,8 @@ globe.Camera = Camera()
 globe.Camera.start(Player)
 
 while True:
-    delay = False
-    #print(ELAPSED)
+    if(ELAPSED > MAX_FRAME_TIME):
+        ELAPSED = MAX_FRAME_TIME
     #events = pygame.event.get()
     
     globe.Camera.fillScreen()
@@ -63,11 +63,8 @@ while True:
         print(Player.pos)
     if(pygame.key.get_pressed()[pygame.K_p]):
         input()
-        delay = True
                
     fps_meter.updateByMilli(ELAPSED)
     pygame.display.set_caption(WINDOW_CAPTION + fps_meter.getFPS())
     pygame.display.flip()
     ELAPSED = FPS_CLOCK.tick(FPS_CAP)
-    if(delay):
-        ELAPSED = 30

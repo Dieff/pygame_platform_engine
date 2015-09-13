@@ -2,6 +2,7 @@ import pygame
 import os.path
 
 FPS_CAP = 60
+MAX_FRAME_TIME = 50
 
 WINDOW_CAPTION = 'Spunky Doods Game Engine  FPS:'
 
@@ -11,7 +12,7 @@ WINDOWWIDTH = TILE_SIZE*20
 
 WINDOWHEIGHT = TILE_SIZE*16
 
-flags = pygame.DOUBLEBUF# | pygame.FULLSCREEN # | pygame.RESIZABLE
+flags = pygame.DOUBLEBUF | pygame.RESIZABLE# | pygame.FULLSCREEN # | pygame.RESIZABLE
 
 DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), flags, 32)
 

@@ -22,17 +22,18 @@ class Player(PhysicsEntity):
         
         self.running = False
         
-        self.maxJump = 200
-        self.maxJumpTime = 100
-        self.gravity = 0.03
-        self.speedLimit = 1
-        self.yspeedLimit = 0.5#0.4
-        self.xSpeedLimit = 0.2
+        self.maxJump = 250 #in milliseconds how long can you jump
+        self.maxJumpTime = 100 #in milliseconds the time you can still jump after leaving ground
+        self.jumpAcceleration = 0.02 #in pixels/ms^2
         
-        self.xMinSpeed = 0.02
-        self.friction = 0.88
+        self.gravity = 0.0015 #in pixels/ms^2
         
-        self.xAcceleration = 0.05
+        self.yspeedLimit = 0.4#in pixels/ms
+        self.xSpeedLimit = 0.2#in pixels/ms
+        
+        self.friction = 0.0011
+        
+        self.xAcceleration = 0.05#in pixels/ms^s
         
         self.colRecursionDepth = 0
         
@@ -52,17 +53,19 @@ class Player(PhysicsEntity):
         
         self.onBottom = False
         self.oldOnBottom = False
+        self.elapsed = 0
                 
     def getSprite(self):
         queryString = (self.action + '-' + self.orientation)
         return super().getSprite(queryString)
                 
     def update(self, elapsedTime):
+        self.elapsed = elapsedTime
         self.curSprite.update(elapsedTime)
             
         key_states = pygame.key.get_pressed()
         
-        self.vel = (self.vel[0],self.vel[1] + self.gravity)
+        self.vel = (self.vel[0],self.vel[1] + self.gravity*elapsedTime)
         
         self.running = False
         
@@ -72,12 +75,12 @@ class Player(PhysicsEntity):
             self.vel = (self.vel[0], self.vel[1]-0.05)
             
         if(key_states[pygame.K_LEFT]):
-            self.vel = (self.vel[0]-self.xAcceleration, self.vel[1])
+            self.vel = (self.vel[0]-self.xAcceleration*elapsedTime, self.vel[1])
             self.running = True
             self.orientation = 'left'
             
         if(key_states[pygame.K_RIGHT]):
-            self.vel = (self.vel[0]+self.xAcceleration, self.vel[1])
+            self.vel = (self.vel[0]+self.xAcceleration*elapsedTime, self.vel[1])
             self.running = True
             self.orientation = 'right'
             
@@ -87,7 +90,7 @@ class Player(PhysicsEntity):
                 self.jumpCounter -= elapsedTime
                 if(self.jumpCounter > 0 and self.jumpJuice <= 0):
                     self.action = 'jumping'
-                    self.vel = (self.vel[0], self.vel[1]-0.025 * self.jumpCounter)
+                    self.vel = (self.vel[0], self.vel[1]-self.jumpAcceleration*elapsedTime) #* self.jumpCounter)
                 else:
                     key_states[pygame.K_f]
             elif(self.jumpJuice > 0):
@@ -128,7 +131,7 @@ class Player(PhysicsEntity):
         #A shitty fix for collision bugs
         #make this better!!!
         self.colRecursionDepth +=1
-        if(self.colRecursionDepth > 400):
+        if(self.colRecursionDepth > 25):
             print('ERROR caught in collision detection. crashing prevented. velocity killed')
             self.npos = self.pos
             self.setPermanentPosition()
@@ -180,12 +183,15 @@ class Player(PhysicsEntity):
                         self.npos = pygame.Rect(self.npos.left, self.pos.top+okY, self.width, self.height)
                         
                         
-                        if(abs(self.vel[0]) >= self.xMinSpeed and not(self.running)):
-                            self.vel = (self.vel[0]*self.friction, self.vel[1])
-                            print('do friction')
+                        if(abs(self.vel[0]) >= self.friction*self.elapsed and not(self.running)):
+                            if(self.vel[0] > 0):
+                                self.vel = (self.vel[0] - self.friction*self.elapsed, self.vel[1])
+                            else:
+                                self.vel = (self.vel[0] + self.friction*self.elapsed, self.vel[1])
+                            #print('do friction')
                         elif(not(self.running)):
                             self.vel = (0, self.vel[1])
-                            print('kill friction')
+                            #print('kill friction')
                             
                         self.jumpJuice = self.maxJumpTime
 
