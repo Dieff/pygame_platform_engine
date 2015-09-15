@@ -9,7 +9,7 @@ class Room:
         self.areaId = ''
         self.roomId = ''
         globe.Updater.registerDrawee(self.draw)
-        globe.Updater.registerUpdatee(self.update)
+        globe.Updater.registerUpdatee(self.update, ['nominal'], ['paused'])
         self.tiles = []
         self.backgroundTiles = []
         self.entities = []
@@ -150,4 +150,3 @@ class Room:
                 return self.roomData[pref]
         else:
             return self.roomData['data'][pref]
-        

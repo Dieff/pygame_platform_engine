@@ -10,7 +10,9 @@ import math
 class Player(PhysicsEntity):
     def __init__(self):
         super().__init__()
-        self.registerAll()
+        globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
+        globe.Updater.registerDrawee(self.draw)
+        globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
         
         self.width = 28
         self.height = 30
@@ -23,7 +25,7 @@ class Player(PhysicsEntity):
         self.running = False
         
         self.maxJump = 250 #in milliseconds how long can you jump
-        self.maxJumpTime = 100 #in milliseconds the time you can still jump after leaving ground
+        self.maxJumpTime = 50 #in milliseconds the time you can still jump after leaving ground
         self.jumpAcceleration = 0.02 #in pixels/ms^2
         
         self.gravity = 0.0015 #in pixels/ms^2
@@ -54,6 +56,8 @@ class Player(PhysicsEntity):
         self.onBottom = False
         self.oldOnBottom = False
         self.elapsed = 0
+        
+        self.isJumping = False
                 
     def getSprite(self):
         queryString = (self.action + '-' + self.orientation)
@@ -89,13 +93,14 @@ class Player(PhysicsEntity):
                 self.jumpJuice = 0
                 self.jumpCounter -= elapsedTime
                 if(self.jumpCounter > 0 and self.jumpJuice <= 0):
-                    self.action = 'jumping'
+                    self.isJumping = True
                     self.vel = (self.vel[0], self.vel[1]-self.jumpAcceleration*elapsedTime) #* self.jumpCounter)
                 else:
                     key_states[pygame.K_f]
             elif(self.jumpJuice > 0):
                 self.jumpCounter = self.maxJump
                 self.jumpJuice = 0
+                self.isJumping = True
         #this prevents double jump
         else:
             self.jumpCounter = 0
@@ -119,6 +124,8 @@ class Player(PhysicsEntity):
         self.action = 'stand'
         if(self.running and self.action == 'stand'):
             self.action = 'walk'
+        if(self.isJumping):
+            self.action = 'jumping'
 
         
     def draw(self):
@@ -188,15 +195,14 @@ class Player(PhysicsEntity):
                                 self.vel = (self.vel[0] - self.friction*self.elapsed, self.vel[1])
                             else:
                                 self.vel = (self.vel[0] + self.friction*self.elapsed, self.vel[1])
-                            #print('do friction')
                         elif(not(self.running)):
                             self.vel = (0, self.vel[1])
-                            #print('kill friction')
                             
                         self.jumpJuice = self.maxJumpTime
 
                         colHappened = True
                         self.onBottom = True
+                        self.isJumping = False
                         
                     elif(smallestIndex == 2):
                         #Left collision

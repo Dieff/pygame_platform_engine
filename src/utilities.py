@@ -1,4 +1,5 @@
 import math
+import src.globe as globe
 
 class fps_meter:
     def __init__(self):
@@ -28,12 +29,73 @@ class fps_meter:
 
 class State:
     def __init__(self):
-        self.state = 'nominal'
-    def getState(self):
-        return self.state
-    def setState(self, newState):
-        self.state = newState
+        self.states = []
         
+    def getStates(self):
+        return self.states
+    
+    def hasState(self, state):
+        if(state in self.states):
+            return True
+        else:
+            return False
+        
+    def addState(self, newState):
+        if(not(self.hasState(newState))):
+            self.states.append(newState)
+        
+    def removeState(self, state):
+        self.states.remove(state)
+        
+    def pauseGame(self):
+        self.addState('paused')
+        
+    def unPauseGame(self):
+        self.removeState('paused')
+        
+class Timer:
+    def __init__(self):
+        globe.Updater.registerUpdatee(self.update)
+        self.curTime = 0
+        self.goalTime = 0
+        self.onComplete = False
+        self.isRunning = False
+        self.done = False
+        
+    def set(self, time, onComplete=False):
+        self.curTime = 0
+        self.goalTime = time
+        self.onComplete=onComplete
+        self.isRunning = False
+        self.done = False
+        
+    def update(self, elapsed):
+        if(self.isRunning):
+            self.curTime += elapsed
+            if(self.curTime > self.goalTime):
+                self.done = True
+                if(self.onComplete):
+                    self.onComplete()
+                    
+    def start(self):
+        self.isRunning = True
+        self.curTime = 0
+        self.done = False
+        
+    def isDone(self):
+        return self.done
+    
+    def pause(self):
+        self.isRunning = False
+        
+    def unPause(self):
+        self.isRunning = True
+        
+    def getElapsed(self):
+        return self.curTime
+    
+    def getMax(self):
+        return self.goalTime
         
 def getDistance(pointA, pointB):
     dX = abs(pointB[0] - pointA[0])

@@ -6,7 +6,7 @@ from src.constants import *
 class Door(Entity):
     def __init__(self):
         super().__init__()
-        globe.Updater.registerPlayerCollidee(self)
+        globe.Updater.registerPlayerCollidee(self, ['nominal'], ['paused'])
         self.curSprite = globe.Loader.getSprite('common', 'door')
         
     def draw(self):
@@ -37,6 +37,6 @@ class Door(Entity):
                 newY = myData['newPosY']    
         
             if(doRoom):
-                globe.Area.changeRoom(room)
+                globe.Area.cinematicLoad(room, (newX, newY))
         
-            playerObj.spawn((newX,newY))
+            #playerObj.spawn((newX,newY))

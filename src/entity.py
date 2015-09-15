@@ -24,7 +24,7 @@ class Entity:
             self.curSprite.draw(pos)
         
     def register(self):
-        globe.Updater.registerUpdatee(self.update)
+        globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
         globe.Updater.registerDrawee(self.draw)
         
     def unRegister(self):
@@ -42,8 +42,6 @@ class Entity:
     
     def tileCollide(self):
         pass
-    
-    
     
     def addSprite(self, spriteName, spriteAnimationObject):
         self.sprites[spriteName] = spriteAnimationObject
@@ -80,7 +78,7 @@ class PhysicsEntity(Entity):
         return self.npos
     
     def registerCollidee(self):
-        globe.Updater.registerRoomCollidee(self)
+        globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
     
     def registerAll(self):
         self.register()
