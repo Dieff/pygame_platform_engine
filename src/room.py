@@ -150,3 +150,9 @@ class Room:
                 return self.roomData[pref]
         else:
             return self.roomData['data'][pref]
+        
+    def getDisplayName(self):
+        if(self.getPref('displayName')):
+            return self.getPref('displayName')
+        else:
+            return "Unknown Room"

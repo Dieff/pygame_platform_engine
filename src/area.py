@@ -2,6 +2,7 @@ import src.globe as globe
 from src.room import *
 from src.constants import *
 from src.utilities import *
+from src.hud import *
 import pygame
 
 class Area:
@@ -34,6 +35,20 @@ class Area:
             self.roomId = roomId
             
         self.Room.load(self.areaId, self.roomId)
+        globe.Hud.displayText(1000, self.Room.getDisplayName(), (WINDOWWIDTH / 3, 100))
+        
+    def initialCinematicLoad(self, newRoomId, newPlayerLocation):
+        self.newRoomId = newRoomId
+        self.cine = True
+        self.npl = newPlayerLocation
+        globe.State.pauseGame()
+        self.fadingIn = True
+        self.timer.set(200)
+        self.timer.start()
+        globe.Updater.registerDrawee(self.transition, ['nominal','paused'],[])
+        self.changeRoom(self.newRoomId)
+        if(self.npl):
+            globe.Updater.spawnPlayer(self.npl)
         
     def cinematicLoad(self, newRoomId, newPlayerLocation):
         self.newRoomId = newRoomId

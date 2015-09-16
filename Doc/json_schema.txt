@@ -4,7 +4,7 @@ params that start with ! are required (! not really there)
 params that start with * are planned but not yet implemented
 
 
-*SPRITES
+SPRITES
 	!name - the name of the sprite for loading purposes
 	!file - the spritesheet
 	frameWidth - the width in pixels of each frame
@@ -26,7 +26,7 @@ TILES
 
 ROOMS
 	!name - the name of the room for loading purposes
-	*displayName - name of the room as shown to player
+	displayName - name of the room as shown to player
 	!file - the file that holds the tilemap of the room
 	
 	room

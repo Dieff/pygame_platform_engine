@@ -15,7 +15,7 @@ class Player(PhysicsEntity):
         globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
         
         self.width = 28
-        self.height = 30
+        self.height = 28
         
         self.jumpJuice = 0
         self.jumpCounter = 0
@@ -24,7 +24,7 @@ class Player(PhysicsEntity):
         
         self.running = False
         
-        self.maxJump = 250 #in milliseconds how long can you jump
+        self.maxJump = 230 #in milliseconds how long can you jump
         self.maxJumpTime = 50 #in milliseconds the time you can still jump after leaving ground
         self.jumpAcceleration = 0.02 #in pixels/ms^2
         

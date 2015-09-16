@@ -21,6 +21,7 @@ DISPLAYSURF.set_alpha(None)
 #Some helpful colors
 #            R    G    B
 GRAY     = (100, 100, 100)
+GREY = GRAY
 NAVYBLUE = ( 60,  60, 100)
 WHITE    = (255, 255, 255)
 RED      = (255,   0,   0)

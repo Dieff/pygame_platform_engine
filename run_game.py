@@ -9,6 +9,7 @@ from src.constants import *
 from src.room import *
 from src.graphics import *
 from src.area import *
+from src.hud import *
 import src.globe as globe
 
 pygame.init()
@@ -27,16 +28,19 @@ globe.State = State()
 globe.State.addState('nominal')
 globe.Updater = Updater()
 globe.Area = Area()
+globe.Hud = Hud()
 globe.Area.loadArea('test')
-globe.Area.changeRoom('bg-test')
 
 Player = Player()
-globe.Updater.setPlayer(Player)
-
-Player.spawn((1200,896))
-
 globe.Camera = Camera()
 globe.Camera.start(Player)
+globe.Updater.setPlayer(Player)
+
+
+globe.Area.initialCinematicLoad('bg-test', (1200,896))
+
+Player.unRegister()
+Player.register()
 
 iDown = False
 
