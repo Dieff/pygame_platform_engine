@@ -18,7 +18,11 @@ SPRITES
 
 TILES
 	!name - the name of the room for loading purposes
-	!files - an array of the files of frames (or 1 frame)
+	!file - the file for the tile
+	!frames - array of frames for the file
+		frame
+			rowX - x coord to cut out frame
+			rowY -  coord to cut out frame
 	solid - bool, whether or not tile is solid
 	!code - the code for the tile in a room tilemap
 	Default - don't worry about this

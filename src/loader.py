@@ -60,14 +60,25 @@ class Loader:
             
             #handle loading of data and make sure that any missing properties will be defined for later use
             if(type == 'Tiles'):
-                item['data'] = []
-                for frame in item['files']:
-                    item['data'].append(self.loadImage(os.path.join(path, frame)))
-                
                 if(not('animationTime' in item)):
                     item['animationTime'] = 1
                 if(not('Default' in item)):
                     item['Default'] = False
+                if(not(item['Default'])):  
+                    item['data'] = []
+                    mainImage = self.loadImage(os.path.join(path, item['file']))
+                    splitImage = self.splitSurface(mainImage, TILE_SIZE, TILE_SIZE)
+                    data = []
+                
+                    cols = mainImage.get_width()/TILE_SIZE
+                
+                    for frame in item['frames']:
+                        xIndex = frame['rowX']
+                        yIndex = frame['rowY']
+                        data.append(splitImage[int(yIndex*cols + xIndex)])
+                
+                    item['data'] = data
+                
                 
             elif(type == 'Sprites'):
                 mainImage = self.loadImage(os.path.join(path, item['file']))

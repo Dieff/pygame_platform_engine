@@ -72,11 +72,9 @@ class Player(PhysicsEntity):
         self.vel = (self.vel[0],self.vel[1] + self.gravity*elapsedTime)
         
         self.running = False
-        
-        self.jumpJuice -= elapsedTime
             
         if(key_states[pygame.K_UP]):
-            self.vel = (self.vel[0], self.vel[1]-0.05)
+            self.vel = (self.vel[0], self.vel[1]-(0.1*elapsedTime))
             
         if(key_states[pygame.K_LEFT]):
             self.vel = (self.vel[0]-self.xAcceleration*elapsedTime, self.vel[1])
@@ -94,9 +92,9 @@ class Player(PhysicsEntity):
                 self.jumpCounter -= elapsedTime
                 if(self.jumpCounter > 0 and self.jumpJuice <= 0):
                     self.isJumping = True
-                    self.vel = (self.vel[0], self.vel[1]-self.jumpAcceleration*elapsedTime) #* self.jumpCounter)
-                else:
-                    key_states[pygame.K_f]
+                    self.vel = (self.vel[0], self.vel[1]-(self.jumpAcceleration*elapsedTime)) #* self.jumpCounter)
+                '''else:
+                    key_states[pygame.K_f]'''
             elif(self.jumpJuice > 0):
                 self.jumpCounter = self.maxJump
                 self.jumpJuice = 0
@@ -104,6 +102,8 @@ class Player(PhysicsEntity):
         #this prevents double jump
         else:
             self.jumpCounter = 0
+            
+        self.jumpJuice -= elapsedTime
 
         if(self.vel[0] > self.xSpeedLimit):
             self.vel = (self.xSpeedLimit, self.vel[1])

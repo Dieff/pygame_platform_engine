@@ -12,11 +12,12 @@ WINDOWWIDTH = TILE_SIZE*20
 
 WINDOWHEIGHT = TILE_SIZE*16
 
-flags = pygame.DOUBLEBUF | pygame.RESIZABLE# | pygame.FULLSCREEN # | pygame.RESIZABLE
+flags = pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.HWSURFACE #| pygame.OPENGL  # pygame.HWACCEL# | pygame.FULLSCREEN # | pygame.RESIZABLE
 
-DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), flags, 32)
+DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+#DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), flags, 32)
 
-DISPLAYSURF.set_alpha(None)
+#DISPLAYSURF.set_alpha(None)
 
 #Some helpful colors
 #            R    G    B

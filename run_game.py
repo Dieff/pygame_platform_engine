@@ -43,10 +43,15 @@ Player.unRegister()
 Player.register()
 
 iDown = False
+lDown = False
+updateToggle = False
+fullScreen = False
 
 while True:
     if(ELAPSED > MAX_FRAME_TIME):
         ELAPSED = MAX_FRAME_TIME
+        
+    events = pygame.event.get()
     #events = pygame.event.get()
     
     globe.Camera.fillScreen()
@@ -58,7 +63,7 @@ while True:
         
         
     #handles quit events (clicking x in window)
-    for event in pygame.event.get():
+    for event in events:
         if(event.type == pygame.QUIT):
             print('quit attempt')
             pygame.quit()
@@ -70,6 +75,9 @@ while True:
         print(Player.pos)
     if(pygame.key.get_pressed()[pygame.K_p]):
         input()
+    if(pygame.key.get_pressed()[pygame.K_ESCAPE]):
+        pygame.quit()
+        sys.exit()
     if(pygame.key.get_pressed()[pygame.K_i]):
         if(not(iDown)):
             if(globe.State.hasState('paused')):
@@ -79,8 +87,26 @@ while True:
         iDown = True
     else:
         iDown = False
+    if(pygame.key.get_pressed()[pygame.K_l]):
+        if(not(lDown)):
+            if(fullScreen):
+                pygame.display.set_mode((WINDOWWIDTH,WINDOWHEIGHT))
+            else:
+                fullScreen = True
+                flags = pygame.FULLSCREEN
+                pygame.display.set_mode((WINDOWWIDTH,WINDOWHEIGHT), flags, 32)
+        lDown = True
+    else:
+        lDown = False
                
     fps_meter.updateByMilli(ELAPSED)
     pygame.display.set_caption(WINDOW_CAPTION + fps_meter.getFPS())
-    pygame.display.flip()
+    
+    if(updateToggle):
+        updateToggle = False
+        updateRect = pygame.Rect(0,0,int(WINDOWWIDTH/2),int(WINDOWHEIGHT/2))
+    else:
+        updateToggle = True
+        updateRect = pygame.Rect(int(WINDOWWIDTH/2),int(WINDOWHEIGHT/2),int(WINDOWWIDTH/2),int(WINDOWHEIGHT/2))
+    pygame.display.update(updateRect)
     ELAPSED = FPS_CLOCK.tick(FPS_CAP)

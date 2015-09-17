@@ -143,13 +143,7 @@ class Room:
         return rets
     
     def getPref(self, pref):
-        if(not(pref in self.roomData['data'])):
-            if(not(pref in self.roomData)):
-                return False
-            else:
-                return self.roomData[pref]
-        else:
-            return self.roomData['data'][pref]
+        return self.roomData[pref]
         
     def getDisplayName(self):
         if(self.getPref('displayName')):
