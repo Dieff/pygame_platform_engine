@@ -2,8 +2,6 @@ import src.globe as globe
 from src.constants import *
 from src.tile import *
 
-from src.entities.door import *
-
 class Room:
     def __init__(self):
         self.areaId = ''
@@ -70,6 +68,8 @@ class Room:
                 self.hasBackground = True
                 self.populateBackgroundTiles()
                 
+        globe.Camera.newRoom()
+                
         if(self.roomData['doEntities']):
             for entity in self.roomData['entities']:
                 if(not 'posX' in entity):
@@ -80,9 +80,9 @@ class Room:
                     entity['action'] = ''  
                 
                 baby = globe.Loader.getNewEntity(entity['name'])
+                baby.addData(entity)
                 baby.register()
                 baby.spawn((entity['posX'],entity['posY']))
-                baby.addData(entity)
                 self.entities.append(baby)
         
     def update(self, elapsed_time):

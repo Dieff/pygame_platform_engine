@@ -135,3 +135,8 @@ class Camera:
         if(position[1] > WINDOWHEIGHT + tolerance):
             return False
         return True
+    
+    def newRoom(self):
+        self.realPlayerPos = self.player.pos
+        self.offsetX = 0
+        self.offsetY = 0

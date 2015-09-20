@@ -25,5 +25,23 @@
 "code":"1",
 "solid":true,
 "animationTime":0
+},
+{
+"name":"arrowWall",
+"file":"arrow.png",
+"frames":[{"rowX":0,"rowY":0}, {"rowX":1,"rowY":0}],
+"default":false,
+"code":"a",
+"solid":true,
+"animationTime":500
+},
+{
+"name":"arrowWall2",
+"file":"arrowRight.png",
+"frames":[{"rowX":0,"rowY":0}, {"rowX":1,"rowY":0}],
+"default":false,
+"code":"s",
+"solid":true,
+"animationTime":500
 }
 ]

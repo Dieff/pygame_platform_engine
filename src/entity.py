@@ -14,6 +14,7 @@ class Entity:
         
     def addData(self, data):
         self.data.update(data)
+
         
     def update(self, elapsed_time):
         if(self.curSprite):
@@ -85,14 +86,14 @@ class PhysicsEntity(Entity):
         self.registerCollidee()
         
     def setTempPosition(self, elapsed):
-        self.npos = pygame.Rect(self.pos[0] + self.vel[0]*elapsed, self.pos[1] + self.vel[1]*elapsed, self.width, self.height)
+        self.npos = self.pos.move(int(self.vel[0]*elapsed), int(self.vel[1]*elapsed))#pygame.Rect(self.pos[0] + self.vel[0]*elapsed, self.pos[1] + self.vel[1]*elapsed, self.width, self.height)
         
     def setPermanentPosition(self):
         self.pos = self.npos
         
     def update(self, elapsed):
         super().update(elapsed)
-        self.setTempPosition()
+        self.setTempPosition(elapsed)
         
     def getCollidePoints(self):
         self.top = (self.npos.left + (self.width/2), self.npos.top)

@@ -131,6 +131,60 @@
 	}
 ],
 "animationTime":100
+},
+{
+"name":"bat-fly-left",
+"file":"bat.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	},
+	{
+	"rowX":1,
+	"rowY":0
+	},
+	{
+	"rowX":2,
+	"rowY":0
+	}
+],
+"animationTime":100
+},
+{
+"name":"bat-fly-right",
+"file":"bat.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":1
+	},
+	{
+	"rowX":1,
+	"rowY":1
+	},
+	{
+	"rowX":2,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"spike",
+"file":"spike.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	}
+],
+"animationTime":100
 }
-
 ]

@@ -37,7 +37,7 @@ globe.Camera.start(Player)
 globe.Updater.setPlayer(Player)
 
 
-globe.Area.initialCinematicLoad('bg-test', (1200,896))
+globe.Area.initialCinematicLoad('starting-point', (32,356))
 
 Player.unRegister()
 Player.register()
@@ -57,8 +57,8 @@ while True:
     globe.Camera.fillScreen()
  
     globe.Updater.update(ELAPSED)
-    globe.Updater.roomCollide()
     globe.Updater.playerCollide()
+    globe.Updater.roomCollide()
     globe.Updater.draw()
         
         

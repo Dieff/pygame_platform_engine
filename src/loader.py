@@ -3,7 +3,8 @@ import pygame
 from src.constants import *
 from src.entity import *
 from src.graphics import *
-from src.entities.door import *
+import src.entityRegistry
+
 
 import os.path
 
@@ -11,16 +12,9 @@ class Loader:
     def __init__(self):
         self.data = dict()
         self.finishedAreas = []
-        self.entities = {
-                         "door":Door
-                         }
       
     def getNewEntity(self, entitiyId):
-        if(entitiyId in self.entities):
-            fetus = self.entities[entitiyId]
-            return fetus()
-        else:
-            return Entity()
+        return src.entityRegistry.getEntity(entitiyId)
         
     def loadJson(self, jsonPath):
         jFile = open(jsonPath,'r')
@@ -107,6 +101,8 @@ class Loader:
             elif(type == 'Rooms'):
                 item['data'] = self.loadJson(os.path.join(path, item['file']))
                 
+                #print(item['data'])
+                
                 if(not('bgConstantScroll' in item['data'])):
                     item['data']['bgConstantScroll'] = False
                 if(not('bgScollFactorX' in item['data'])):
@@ -133,9 +129,6 @@ class Loader:
         if(os.path.exists(os.path.join(curPath, 'Tiles'))):
            self.LoadDataFiles('Tiles', area, os.path.join(curPath, 'Tiles'))
            
-        if(os.path.exists(os.path.join(curPath, 'Rooms'))):
-           self.LoadDataFiles('Rooms', area, os.path.join(curPath, 'Rooms'))
-           
         if(os.path.exists(os.path.join(curPath, 'Sprites'))):
            self.LoadDataFiles('Sprites', area, os.path.join(curPath, 'Sprites'))
            
@@ -144,6 +137,9 @@ class Loader:
            
         if(os.path.exists(os.path.join(curPath, 'Music'))):
            self.LoadDataFiles('Music', area, os.path.join(curPath, 'Music'))
+           
+        if(os.path.exists(os.path.join(curPath, 'Rooms'))):
+           self.LoadDataFiles('Rooms', area, os.path.join(curPath, 'Rooms'))
        
         self.finishedAreas.append(area)
         
@@ -165,6 +161,7 @@ class Loader:
         if(queryString in self.data):
             return self.data[queryString]
         else:
+            print('DATA NOT FOUND ', queryString)
             return False
         
     def getTile(self, code):
