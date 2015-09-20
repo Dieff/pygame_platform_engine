@@ -7,3 +7,5 @@ make tiles stored in tilemaps instead of in individual files
 make it so that invalid json files dont crash game
 
 change event method so that events still work with low fps
+
+optimize Camera.getBackgroundDrawPos
