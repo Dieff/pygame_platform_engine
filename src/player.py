@@ -7,7 +7,7 @@ import pygame
 import src.globe as globe
 import math
 
-class Player(PhysicsEntity):
+class Player(HealthEntity):
     def __init__(self):
         super().__init__()
         globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
@@ -33,9 +33,11 @@ class Player(PhysicsEntity):
         self.yspeedLimit = 0.4#in pixels/ms
         self.xSpeedLimit = 0.2#in pixels/ms
         
-        self.friction = 0.0011
+        self.friction = 0.0015
         
         self.xAcceleration = 0.05#in pixels/ms^s
+        
+        self.hurtTime = 750 #in milliseconds
         
         self.colRecursionDepth = 0
         
@@ -47,6 +49,8 @@ class Player(PhysicsEntity):
         self.addSprite('falling-right', globe.Loader.getSprite('common', 'quote-jumpDown-right'))
         self.addSprite('jumping-left', globe.Loader.getSprite('common', 'quote-jumpUp-left'))
         self.addSprite('falling-left', globe.Loader.getSprite('common', 'quote-jumpDown-left'))
+        self.addSprite('hurt-left', globe.Loader.getSprite('common', 'quote-hurt-left'))
+        self.addSprite('hurt-right', globe.Loader.getSprite('common', 'quote-hurt-right'))
         
         self.orientation = 'left'
         self.action = 'stand'
@@ -58,12 +62,18 @@ class Player(PhysicsEntity):
         self.elapsed = 0
         
         self.isJumping = False
+        
+        self.invuln = False
+        
+        self.maxHealth = 100
+        self.health = 100
                 
     def getSprite(self):
         queryString = (self.action + '-' + self.orientation)
         return super().getSprite(queryString)
                 
     def update(self, elapsedTime):
+        print(self.getHealth())
         self.elapsed = elapsedTime
         self.curSprite.update(elapsedTime)
             
@@ -122,11 +132,15 @@ class Player(PhysicsEntity):
         self.colRecursionDepth = 0
         
         self.action = 'stand'
-        if(self.running and self.action == 'stand'):
-            self.action = 'walk'
-        if(self.isJumping):
+        if(self.invuln):
+            self.action = 'hurt'
+        elif(self.isJumping):
             self.action = 'jumping'
+        elif(self.running and self.action == 'stand'):
+            self.action = 'walk'
 
+        if(self.getHealth() <= 0):
+            self.kill()
         
     def draw(self):
         self.curSprite = self.getSprite()
@@ -250,4 +264,23 @@ class Player(PhysicsEntity):
                 
         
         self.setPermanentPosition()
+        
+    def setInvincible(self):
+        self.invuln = True
+        
+    def setMortal(self):
+        self.invuln = False
+        
+    def hurt(self, damage, enemyPosition):
+        if(not(self.invuln)):
+            super().hurt(damage)
+            self.setInvincible()
+            self.hTimer = Timer(self.hurtTime, self.setMortal)
+            enemyX = enemyPosition[0]
+            myX = self.pos.center[0]
+            if(myX - enemyX <= 0):
+                self.vel = (-1*self.xSpeedLimit, -self.yspeedLimit)
+            else:
+                self.vel = (self.xSpeedLimit, -self.yspeedLimit)
+            
         

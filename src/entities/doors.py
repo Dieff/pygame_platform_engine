@@ -10,6 +10,18 @@ class InvisiDoor(Entity):
         self.width = TILE_SIZE
         self.height = TILE_SIZE
         
+    def addData(self, data):
+        if(not('action' in data)):
+            data['action'] = {}
+            
+        if('width' in data['action']):
+            self.width = data['action']['width']
+        
+        if('height' in data['action']):
+            self.height = data['action']['height']
+        
+        super().addData(data)
+        
     def register(self):
         pass
         

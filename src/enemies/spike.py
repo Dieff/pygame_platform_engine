@@ -8,4 +8,5 @@ class Spike(Enemy):
         self.addSprite('spike', globe.Loader.getSprite('common', 'spike'))
         self.curSprite = self.getSprite('spike')
         self.width = 20
-        self.height = 28
+        self.height = 20
+        self.hitDamage = 25

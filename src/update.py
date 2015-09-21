@@ -13,6 +13,12 @@ class Updater:
         if(self.Player):
             self.Player.spawn(newLoc)
         
+    def getPlayerHealth(self):
+        return self.Player.getHealth()
+    
+    def getPlayerMaxHealth(self):
+        return self.Player.getMaxHealth()
+        
     def register(self, registryList, registryObject, yesStates, noStates):
         entry = {'object':registryObject,'yesStates':yesStates,'noStates':noStates}
         registryList.append(entry)

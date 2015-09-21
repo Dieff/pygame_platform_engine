@@ -87,6 +87,7 @@ class PhysicsEntity(Entity):
         
     def setTempPosition(self, elapsed):
         self.npos = self.pos.move(int(self.vel[0]*elapsed), int(self.vel[1]*elapsed))#pygame.Rect(self.pos[0] + self.vel[0]*elapsed, self.pos[1] + self.vel[1]*elapsed, self.width, self.height)
+        self.npos.inflate(self.npos.width - self.width, self.npos.height - self.height)
         
     def setPermanentPosition(self):
         self.pos = self.npos
@@ -100,3 +101,34 @@ class PhysicsEntity(Entity):
         self.bottom = (self.npos.left + (self.width/2), self.npos.bottom)
         self.left = (self.npos.left, self.pos.top + (self.height/2))
         self.right = (self.npos.right, self.pos.top + (self.height/2))
+        
+class HealthEntity(PhysicsEntity):
+    def __init__(self):
+        super().__init__()
+        self.maxHealth = 1
+        self.health = self.maxHealth
+        
+    def kill(self):
+        print('Shit Im Dead!')
+        self.unRegister()
+        
+    def setMaxHealth(self, health):
+        self.maxHealth = health
+        
+    def hurt(self, damage):
+        self.health -= damage
+        
+    def heal(self, health):
+        self.health += health
+        
+    def getMaxHealth(self):
+        return self.maxHealth
+    
+    def getHealth(self):
+        return self.health
+        
+    def update(self, elapsed):
+        super().update(elapsed)
+        if(self.health <= 0):
+            self.kill()
+        

@@ -120,6 +120,40 @@
 "animationTime":100
 },
 {
+"name":"quote-hurt-left",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	},
+	{
+	"rowX":9,
+	"rowY":0
+	}
+],
+"animationTime":50
+},
+{
+"name":"quote-hurt-right",
+"file":"quote_sheet.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":1
+	},
+	{
+	"rowX":9,
+	"rowY":0
+	}
+],
+"animationTime":50
+},
+{
 "name":"door",
 "file":"door.png",
 "frameWidth":20,

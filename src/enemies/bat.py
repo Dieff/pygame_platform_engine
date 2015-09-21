@@ -14,8 +14,8 @@ class Bat(Enemy):
         self.data = {}
         self.data['movement-amplitude'] = 100
         self.data['movement-duration'] = 5000
-        self.width = 32
-        self.height = 32
+        self.width = 20
+        self.height = 20
         
     def addData(self, data):
         if(not('action' in data)):

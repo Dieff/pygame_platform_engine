@@ -78,48 +78,10 @@
 "posY":1604,
 "action":{
 	"room":"climbingWall",
-	"newPosX":32,
-	"newPosY":900
-	}
-},
-{
-"name":"invisiDoor",
-"posX":1120,
-"posY":1604,
-"action":{
-	"room":"climbingWall",
-	"newPosX":32,
-	"newPosY":900
-	}
-},
-{
-"name":"invisiDoor",
-"posX":1152,
-"posY":1604,
-"action":{
-	"room":"climbingWall",
-	"newPosX":32,
-	"newPosY":900
-	}
-},
-{
-"name":"invisiDoor",
-"posX":1184,
-"posY":1604,
-"action":{
-	"room":"climbingWall",
-	"newPosX":32,
-	"newPosY":900
-	}
-},
-{
-"name":"invisiDoor",
-"posX":1216,
-"posY":1604,
-"action":{
-	"room":"climbingWall",
-	"newPosX":32,
-	"newPosY":900
+	"newPosX":700,
+	"newPosY":3,
+	"width":200,
+	"height":10
 	}
 },
 {
@@ -133,7 +95,7 @@
 {
 "name":"spike",
 "posX":189,
-"posY":452,
+"posY":450,
 "action":{
 
 }

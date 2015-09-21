@@ -54,13 +54,16 @@ class State:
         self.removeState('paused')
         
 class Timer:
-    def __init__(self):
+    def __init__(self, time=False, onComplete=False):
         globe.Updater.registerUpdatee(self.update)
         self.curTime = 0
         self.goalTime = 0
         self.onComplete = False
         self.isRunning = False
         self.done = False
+        if(time):
+            self.set(time, onComplete)
+            self.start()
         
     def set(self, time, onComplete=False):
         self.curTime = 0
@@ -72,8 +75,11 @@ class Timer:
     def update(self, elapsed):
         if(self.isRunning):
             self.curTime += elapsed
+            if(self.done):
+                return True
             if(self.curTime > self.goalTime):
                 self.done = True
+                #globe.Updater.removeUpdatee(self.update)
                 if(self.onComplete):
                     self.onComplete()
                     
