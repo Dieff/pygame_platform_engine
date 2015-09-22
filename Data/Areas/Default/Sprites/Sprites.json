@@ -1,1 +1,12 @@
-[]
+[{
+"name":"meter",
+"file":"heart.png",
+"frameWidth":16,
+"frameHeight":16,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	}
+]
+}]

@@ -73,7 +73,6 @@ class Player(HealthEntity):
         return super().getSprite(queryString)
                 
     def update(self, elapsedTime):
-        print(self.getHealth())
         self.elapsed = elapsedTime
         self.curSprite.update(elapsedTime)
             
@@ -145,8 +144,7 @@ class Player(HealthEntity):
     def draw(self):
         self.curSprite = self.getSprite()
         pdp = globe.Camera.getPlayerDrawPos()
-        if(self.curSprite):
-            self.curSprite.draw((pdp[0] + int(self.drawWidthDifference()/2), pdp[1] + int(self.drawHeightDifference()/2)))
+        super().draw(pdp)
         
     def tileCollide(self, tiles):
         #A shitty fix for collision bugs

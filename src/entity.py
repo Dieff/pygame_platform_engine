@@ -22,7 +22,8 @@ class Entity:
     
     def draw(self, pos):
         if(self.curSprite):
-            self.curSprite.draw(pos)
+            #fixes things if sprite is different width from collision width
+            self.curSprite.draw((pos[0]+int(self.drawWidthDifference()/2),pos[1]+int(self.drawHeightDifference()/2)))
         
     def register(self):
         globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
