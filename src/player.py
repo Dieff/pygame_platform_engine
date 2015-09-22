@@ -3,6 +3,7 @@ from src.update import *
 from src.constants import *
 from src.utilities import *
 from src.graphics import *
+from src.accessories import *
 import pygame
 import src.globe as globe
 import math
@@ -14,7 +15,7 @@ class Player(HealthEntity):
         globe.Updater.registerDrawee(self.draw)
         globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
         
-        self.width = 28
+        self.width = 22
         self.height = 28
         
         self.jumpJuice = 0
@@ -41,16 +42,20 @@ class Player(HealthEntity):
         
         self.colRecursionDepth = 0
         
-        self.addSprite('stand-left', globe.Loader.getSprite('common', 'quote-stand-left'))
-        self.addSprite('stand-right', globe.Loader.getSprite('common', 'quote-stand-right'))
+        self.addSprite('stand-left', globe.Loader.getSprite('common', 'protagonist-stand-left'))
+        self.addSprite('stand-right', globe.Loader.getSprite('common', 'protagonist-stand-right'))
+        self.addSprite('jumping-right', globe.Loader.getSprite('common', 'protagonist-jumpUp-right'))
+        self.addSprite('jumping-left', globe.Loader.getSprite('common', 'protagonist-jumpUp-left'))
+        self.addSprite('hurt-left', globe.Loader.getSprite('common', 'protagonist-hurt-left'))
+        self.addSprite('hurt-right', globe.Loader.getSprite('common', 'protagonist-hurt-right'))
+        
+        #need sprites
         self.addSprite('walk-left', globe.Loader.getSprite('common', 'quote-walk-left'))
         self.addSprite('walk-right', globe.Loader.getSprite('common', 'quote-walk-right'))
-        self.addSprite('jumping-right', globe.Loader.getSprite('common', 'quote-jumpUp-right'))
+        #self.addSprite('jumping-right', globe.Loader.getSprite('common', 'quote-jumpUp-right'))
         self.addSprite('falling-right', globe.Loader.getSprite('common', 'quote-jumpDown-right'))
-        self.addSprite('jumping-left', globe.Loader.getSprite('common', 'quote-jumpUp-left'))
+        #self.addSprite('jumping-left', globe.Loader.getSprite('common', 'quote-jumpUp-left'))
         self.addSprite('falling-left', globe.Loader.getSprite('common', 'quote-jumpDown-left'))
-        self.addSprite('hurt-left', globe.Loader.getSprite('common', 'quote-hurt-left'))
-        self.addSprite('hurt-right', globe.Loader.getSprite('common', 'quote-hurt-right'))
         
         self.orientation = 'left'
         self.action = 'stand'
@@ -67,6 +72,10 @@ class Player(HealthEntity):
         
         self.maxHealth = 100
         self.health = 100
+        
+        
+        self.weapon = Gun()
+        
                 
     def getSprite(self):
         queryString = (self.action + '-' + self.orientation)
@@ -141,10 +150,13 @@ class Player(HealthEntity):
         if(self.getHealth() <= 0):
             self.kill()
         
+        self.weapon.update(elapsedTime, self.orientation)
+        
     def draw(self):
         self.curSprite = self.getSprite()
         pdp = globe.Camera.getPlayerDrawPos()
         super().draw(pdp)
+        self.weapon.draw(pygame.Rect(pdp, (1,1)))
         
     def tileCollide(self, tiles):
         #A shitty fix for collision bugs

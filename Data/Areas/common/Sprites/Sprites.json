@@ -1,5 +1,145 @@
 [
 {
+"name":"protagonist-stand-left",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":2
+	},
+	{
+	"rowX":1,
+	"rowY":2
+	},
+	{
+	"rowX":2,
+	"rowY":2
+	},
+	{
+	"rowX":3,
+	"rowY":2
+	}
+],
+"animationTime":500
+},
+{
+"name":"protagonist-stand-right",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	},
+	{
+	"rowX":1,
+	"rowY":0
+	},
+	{
+	"rowX":2,
+	"rowY":0
+	},
+	{
+	"rowX":3,
+	"rowY":0
+	}
+],
+"animationTime":500
+},
+{
+"name":"protagonist-jumpUp-right",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":1
+	},
+	{
+	"rowX":1,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-jumpUp-left",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":2,
+	"rowY":3
+	},
+	{
+	"rowX":3,
+	"rowY":3
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-hurt-right",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":1
+	},
+	{
+	"rowX":3,
+	"rowY":1
+	},
+	{
+	"rowX":2,
+	"rowY":1
+	},
+	{
+	"rowX":3,
+	"rowY":1
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-hurt-left",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":3,
+	"rowY":3
+	},
+	{
+	"rowX":1,
+	"rowY":3
+	},
+	{
+	"rowX":2,
+	"rowY":3
+	},
+	{
+	"rowX":1,
+	"rowY":3
+	}
+],
+"animationTime":100
+},
+
+
+
+
+
+
+{
 "name":"quote-stand-left",
 "file":"quote_sheet.png",
 "frameWidth":32,
@@ -220,5 +360,31 @@
 	}
 ],
 "animationTime":100
+},
+{
+"name":"gun-right",
+"file":"gun.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	}
+],
+"animationTime":500
+},
+{
+"name":"gun-left",
+"file":"gun.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":1,
+	"rowY":1
+	}
+],
+"animationTime":500
 }
 ]

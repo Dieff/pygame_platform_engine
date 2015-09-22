@@ -5,8 +5,6 @@ import src.globe as globe
 import pygame
 
 
-
-
 class DisplayMessage(Entity):
     def __init__(self, text, duration, location):
         super().__init__()
@@ -139,8 +137,9 @@ class Hud:
         
     def displayText(self, duration, text, location):
         print('text rendered', text)
-        dislay = DisplayMessage(text, duration, location)
-        self.currentDisplayEntities.append(dislay)
+        display = DisplayMessage(text, duration, location)
+        self.currentDisplayEntities.append(display)
+        return display
         
     def update(self, elapsed):
         for item in self.currentDisplayEntities:

@@ -31,11 +31,10 @@ globe.Area = Area()
 globe.Area.loadArea('test')
 
 Player = Player()
-globe.Hud = Hud()
 globe.Camera = Camera()
 globe.Camera.start(Player)
 globe.Updater.setPlayer(Player)
-
+globe.Hud = Hud()
 
 globe.Area.initialCinematicLoad('starting-point', (32,356))
 
