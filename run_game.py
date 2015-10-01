@@ -38,8 +38,8 @@ globe.Hud = Hud()
 
 globe.Area.initialCinematicLoad('starting-point', (32,356))
 
-Player.unRegister()
-Player.register()
+#Player.unRegister()
+#Player.register()
 
 iDown = False
 lDown = False
@@ -56,7 +56,7 @@ while True:
     globe.Camera.fillScreen()
  
     globe.Updater.update(ELAPSED)
-    globe.Updater.playerCollide()
+    globe.Updater.entityCollide()
     globe.Updater.roomCollide()
     globe.Updater.draw()
         

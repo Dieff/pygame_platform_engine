@@ -1,12 +1,13 @@
 import src.globe as globe
+from src.entity import *
 
 class Updater:
     def __init__(self):
         self.updatees = []
         self.drawees = []
         self.roomCollidees = []
-        self.playerCollidees = []
-        self.mutualCollidees = []
+        self.entityCollidees = []
+        self.entities = []
         self.Player = False
         
     def spawnPlayer(self, newLoc):
@@ -58,15 +59,20 @@ class Updater:
                 continue
             item['object'].tileCollide(globe.Room.getTilesAround(item['object'].pos))
             
-    def playerCollide(self):
-        for victim in self.playerCollidees:
-            if(not(self.objectPermitteable(victim))):
+    def entityCollide(self):
+        for pto in self.entityCollidees:
+            if(not(self.objectPermitteable(pto))):
                 continue
-            item = victim['object']
-            itemRect = item.getNextPos()
-            if(itemRect.colliderect(self.Player.getNextPos())):
-                item.playerCollide(self.Player)
-        
+            wantsCollision = pto['object']
+            #print('entities ', self.entities)
+            for vco in self.entities:
+                entity = vco['object']
+                if(entity == wantsCollision):
+                    continue
+                entityRect = wantsCollision.getNextPos()
+                if(entityRect.colliderect(entity.getNextPos())):
+                    wantsCollision.characterCollide(entity)
+
     def setPlayer(self, player):
         self.Player = player
         
@@ -88,9 +94,20 @@ class Updater:
     def removeRoomCollidee(self, PhysicesEntityBasedObject):
         self.remove(self.roomCollidees, PhysicesEntityBasedObject)
         
-    def registerPlayerCollidee(self, entityBasedObject, yesStates=['nominal'], noStates=[]):
-        self.register(self.playerCollidees, entityBasedObject, yesStates, noStates)
         
-    def removePlayerCollidee(self, entityBasedObject):
-        self.remove(self.playerCollidees, entityBasedObject)
+        
+    def registerEntityCollidee(self, entityBasedObject, yesStates=['nominal'], noStates=[]):
+        self.register(self.entityCollidees, entityBasedObject, yesStates, noStates)
+        
+    def removeEntityCollidee(self, entityBasedObject):
+        self.remove(self.entityCollidees, entityBasedObject)
     
+    
+    
+    def addCollideableEntity(self, entity, yesStates=['nominal'], noStates=[]):
+        print(entity)
+        self.register(self.entities, entity, yesStates, noStates)
+        
+    def removeCollideableEntity(self, entity):
+        self.remove(self.entities, entity)
+                    

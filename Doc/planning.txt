@@ -1,0 +1,16 @@
+
+
+
+
+Collisions
+
+tile collision
+	-a function in each entity object gets a list of nearby room tiles
+	-function figures out response
+
+character collision
+	-each entity gets a list of entities with which it collides
+	-updater.characterCollide
+	-projectiles are characters
+	-The entity that affects the other handles it
+	-only gets collideable chars

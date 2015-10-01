@@ -133,8 +133,40 @@
 ],
 "animationTime":100
 },
-
-
+{
+"name":"protagonist-falling-left",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":5
+	},
+	{
+	"rowX":1,
+	"rowY":5
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-falling-right",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":4
+	},
+	{
+	"rowX":1,
+	"rowY":4
+	}
+],
+"animationTime":100
+},
 
 
 

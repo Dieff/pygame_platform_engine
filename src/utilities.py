@@ -54,8 +54,11 @@ class State:
         self.removeState('paused')
         
 class Timer:
-    def __init__(self, time=False, onComplete=False):
-        globe.Updater.registerUpdatee(self.update)
+    def __init__(self, time=False, onComplete=False, normalStateOnly=False):
+        if(normalStateOnly):
+            globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
+        else:
+            globe.Updater.registerUpdatee(self.update)
         self.curTime = 0
         self.goalTime = 0
         self.onComplete = False

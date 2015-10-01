@@ -1,5 +1,7 @@
 from src.constants import *
 from src.entity import *
+from src.utilities import *
+from src.projectiles import *
 import src.globe as globe
 
 import pygame
@@ -28,11 +30,30 @@ class Gun(Accessory):
         self.addSprite('left', globe.Loader.getSprite('common', 'gun-left'))
         self.addSprite('right', globe.Loader.getSprite('common', 'gun-right'))
         self.curSprite = self.getSprite('left')
+        self.bullets = []
+        self.oldStates = pygame.key.get_pressed()
         
-    def update(self, elapsedTime, side):
+        
+    def update(self, elapsedTime, side, npos):
+        self.pos = npos
         self.curSprite = self.getSprite(side)
         
         super().update(elapsedTime)
         key_states = pygame.key.get_pressed()
-        if(key_states[pygame.K_d]):
-            print('POW')
+        if(key_states[pygame.K_d] and not(self.oldStates[pygame.K_d])):
+            if(side == 'left'):
+                b = Projectile(self.pos.move(16,16), (-0.6,0), 3000)
+            elif(side == 'right'):
+                b = Projectile(self.pos.move(16,16), (0.6,0), 3000)
+            b.register()
+            self.bullets.append(b)
+            
+        self.oldStates = key_states
+        
+        for item in self.bullets:
+            if(item.kil):
+                self.bullets.remove(item)
+        
+    def cleanse(self):
+        for item in self.bullets:
+            item.kill()

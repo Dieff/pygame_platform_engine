@@ -11,9 +11,7 @@ import math
 class Player(HealthEntity):
     def __init__(self):
         super().__init__()
-        globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
-        globe.Updater.registerDrawee(self.draw)
-        globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
+        self.entityType = 'player'
         
         self.width = 22
         self.height = 28
@@ -48,14 +46,12 @@ class Player(HealthEntity):
         self.addSprite('jumping-left', globe.Loader.getSprite('common', 'protagonist-jumpUp-left'))
         self.addSprite('hurt-left', globe.Loader.getSprite('common', 'protagonist-hurt-left'))
         self.addSprite('hurt-right', globe.Loader.getSprite('common', 'protagonist-hurt-right'))
+        self.addSprite('falling-right', globe.Loader.getSprite('common', 'protagonist-falling-right'))
+        self.addSprite('falling-left', globe.Loader.getSprite('common', 'protagonist-falling-left'))
         
         #need sprites
         self.addSprite('walk-left', globe.Loader.getSprite('common', 'quote-walk-left'))
         self.addSprite('walk-right', globe.Loader.getSprite('common', 'quote-walk-right'))
-        #self.addSprite('jumping-right', globe.Loader.getSprite('common', 'quote-jumpUp-right'))
-        self.addSprite('falling-right', globe.Loader.getSprite('common', 'quote-jumpDown-right'))
-        #self.addSprite('jumping-left', globe.Loader.getSprite('common', 'quote-jumpUp-left'))
-        self.addSprite('falling-left', globe.Loader.getSprite('common', 'quote-jumpDown-left'))
         
         self.orientation = 'left'
         self.action = 'stand'
@@ -68,6 +64,8 @@ class Player(HealthEntity):
         
         self.isJumping = False
         
+        self.fallingTime = 0
+        
         self.invuln = False
         
         self.maxHealth = 100
@@ -76,10 +74,21 @@ class Player(HealthEntity):
         
         self.weapon = Gun()
         
+        self.register()
+        
+    def register(self):
+        globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
+        globe.Updater.registerDrawee(self.draw)
+        globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
+        globe.Updater.addCollideableEntity(self, ['nominal'], ['room-transition', 'paused'])
                 
     def getSprite(self):
         queryString = (self.action + '-' + self.orientation)
         return super().getSprite(queryString)
+             
+    def spawn(self, pos):
+        super().spawn(pos)
+        self.weapon.cleanse()
                 
     def update(self, elapsedTime):
         self.elapsed = elapsedTime
@@ -140,17 +149,26 @@ class Player(HealthEntity):
         self.colRecursionDepth = 0
         
         self.action = 'stand'
+        if(self.fallingTime > 100):
+            self.action = 'falling'
         if(self.invuln):
             self.action = 'hurt'
         elif(self.isJumping):
             self.action = 'jumping'
+            if(self.vel[1] > 0):
+                self.action = 'falling'
         elif(self.running and self.action == 'stand'):
             self.action = 'walk'
 
         if(self.getHealth() <= 0):
             self.kill()
         
-        self.weapon.update(elapsedTime, self.orientation)
+        if(self.vel[1] > 0):
+            self.fallingTime += elapsedTime
+        else:
+            self.fallingTime = 0
+        
+        self.weapon.update(elapsedTime, self.orientation, self.pos)
         
     def draw(self):
         self.curSprite = self.getSprite()
@@ -226,6 +244,7 @@ class Player(HealthEntity):
 
                         colHappened = True
                         self.onBottom = True
+                        self.fallingTime = 0
                         self.isJumping = False
                         
                     elif(smallestIndex == 2):

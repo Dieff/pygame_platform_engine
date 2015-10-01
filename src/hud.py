@@ -133,7 +133,7 @@ class Hud:
         self.currentDisplayEntities = []
         globe.Updater.registerUpdatee(self.update)
         globe.Updater.registerDrawee(self.draw)
-        self.currentDisplayEntities.append(HealthBar((50,WINDOWHEIGHT-50)))
+        self.currentDisplayEntities.append(HealthBar((50,50)))
         
     def displayText(self, duration, text, location):
         print('text rendered', text)

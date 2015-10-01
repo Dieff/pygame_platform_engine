@@ -6,7 +6,7 @@ from src.constants import *
 class InvisiDoor(Entity):
     def __init__(self):
         super().__init__()
-        globe.Updater.registerPlayerCollidee(self, ['nominal'], ['paused'])
+        globe.Updater.registerEntityCollidee(self, ['nominal'], ['paused'])
         self.width = TILE_SIZE
         self.height = TILE_SIZE
         
@@ -46,10 +46,13 @@ class InvisiDoor(Entity):
             newY = myData['newPosY']    
         
         if(doRoom):
+            print('load started')
             globe.Area.cinematicLoad(room, (newX, newY))
         
-    def playerCollide(self, playerObj):
-        self.processRoom(playerObj)
+    def characterCollide(self, entityObj):
+        print('char Collide', entityObj)
+        if(entityObj.entityType == 'player'):
+            self.processRoom(entityObj)
 
 
 class Door(InvisiDoor):
@@ -63,7 +66,7 @@ class Door(InvisiDoor):
         pos = globe.Camera.getDrawPos(self.pos)
         super().draw(pos)
         
-    def playerCollide(self, playerObj):
+    def characterCollide(self, entityObj):
         key_states = pygame.key.get_pressed()
         if(key_states[pygame.K_DOWN]):
-            self.processRoom(playerObj)
+            super().characterCollide(entityObj)

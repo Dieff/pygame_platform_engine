@@ -11,6 +11,7 @@ class Entity:
         self.data = {}
         self.curSprite = False
         self.sprites = {}
+        self.entityType = 'base'
         
     def addData(self, data):
         self.data.update(data)
@@ -32,6 +33,7 @@ class Entity:
     def unRegister(self):
         globe.Updater.removeUpdatee(self.update)
         globe.Updater.removeDrawee(self.draw)
+        globe.Updater.removeCollideableEntity(self)
         
     def spawn(self, location):
         self.pos = pygame.Rect(location[0], location[1], self.width, self.height)
@@ -39,10 +41,7 @@ class Entity:
     def getNextPos(self):
         return self.pos
     
-    def playerCollide(self):
-        pass
-    
-    def tileCollide(self):
+    def characterCollide(self, collisionEntity):
         pass
     
     def addSprite(self, spriteName, spriteAnimationObject):
@@ -79,12 +78,13 @@ class PhysicsEntity(Entity):
     def getNextPos(self):
         return self.npos
     
-    def registerCollidee(self):
+    def register(self):
+        super().register()
         globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
     
-    def registerAll(self):
-        self.register()
-        self.registerCollidee()
+    def unRegister(self):
+        super().unRegister()
+        globe.Updater.removeRoomCollidee(self)
         
     def setTempPosition(self, elapsed):
         self.npos = self.pos.move(int(self.vel[0]*elapsed), int(self.vel[1]*elapsed))#pygame.Rect(self.pos[0] + self.vel[0]*elapsed, self.pos[1] + self.vel[1]*elapsed, self.width, self.height)
@@ -102,6 +102,9 @@ class PhysicsEntity(Entity):
         self.bottom = (self.npos.left + (self.width/2), self.npos.bottom)
         self.left = (self.npos.left, self.pos.top + (self.height/2))
         self.right = (self.npos.right, self.pos.top + (self.height/2))
+        
+    def tileCollide(self, tiles):
+        pass
         
 class HealthEntity(PhysicsEntity):
     def __init__(self):

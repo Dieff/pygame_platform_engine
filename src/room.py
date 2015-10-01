@@ -58,6 +58,7 @@ class Room:
         self.hasBackground = False
         for item in self.entities:
             item.unRegister()
+            #globe.Updater.removeEntity(item)
         self.entities = []
         
         self.roomData = globe.Loader.getData(self.areaId, 'Rooms', self.roomId)
@@ -84,6 +85,7 @@ class Room:
                 baby.register()
                 baby.spawn((entity['posX'],entity['posY']))
                 self.entities.append(baby)
+                #globe.Updater.addEntity(baby)
         
     def update(self, elapsed_time):
         if(self.hasBackground):
@@ -150,3 +152,6 @@ class Room:
             return self.getPref('displayName')
         else:
             return "Unknown Room"
+        
+    def getEntities(self):
+        return self.entities
