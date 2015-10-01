@@ -32,6 +32,9 @@ class Projectile(PhysicsEntity):
         self.unRegister()
         self.kil = True
         
+    def explode(self):
+        self.kill()
+        
     def draw(self):
         self.setPermanentPosition()
         tpos = globe.Camera.getDrawPos(self.pos)
@@ -43,9 +46,9 @@ class Projectile(PhysicsEntity):
         
         for tile in tiles:
             if(tile.properties['solid'] and testPos.colliderect(tile.getRect())):
-                print('collidion')
-                self.kill()
+                self.explode()
                 
     def characterCollide(self, charObj):
         if(charObj.entityType == 'enemy'):
             charObj.hurt(self.damage)
+            self.explode()

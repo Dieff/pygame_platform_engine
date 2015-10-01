@@ -119,6 +119,10 @@ class HealthEntity(PhysicsEntity):
     def setMaxHealth(self, health):
         self.maxHealth = health
         
+    def updateMaxHealth(self, health):
+        self.setMaxHealth(health)
+        self.health = health
+        
     def hurt(self, damage):
         self.health -= damage
         

@@ -17,6 +17,8 @@ class Bat(Enemy):
         self.width = 20
         self.height = 20
         
+        self.updateMaxHealth(30)
+        
     def addData(self, data):
         if(not('action' in data)):
             data['action'] = {}

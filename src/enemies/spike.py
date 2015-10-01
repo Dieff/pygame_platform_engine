@@ -10,4 +10,4 @@ class Spike(Enemy):
         self.width = 20
         self.height = 20
         self.hitDamage = 25
-        self.setMaxHealth(500000)
+        self.updateMaxHealth(100)
