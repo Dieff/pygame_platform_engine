@@ -10,8 +10,11 @@ class Projectile(PhysicsEntity):
         self.spawn(startPos)
         self.vel = startVel
         
-        self.width = 4
-        self.height = 4
+        self.pos.width = 4
+        self.pos.height = 4
+        
+        self.npos.inflate((self.width - self.npos.width),(self.height - self.npos.height))
+        
         self.kil = False
         
         self.entityType = 'bullet'
@@ -27,6 +30,9 @@ class Projectile(PhysicsEntity):
         super().unRegister()
         globe.Updater.removeEntityCollidee(self)
         globe.Updater.removeCollideableEntity(self)
+       
+    def update(self, el):
+        super().update(el)
         
     def kill(self):
         self.unRegister()
@@ -38,12 +44,11 @@ class Projectile(PhysicsEntity):
     def draw(self):
         self.setPermanentPosition()
         tpos = globe.Camera.getDrawPos(self.pos)
-        tpos = pygame.Rect(tpos, (self.width, self.height))
+        tpos = pygame.Rect(tpos, (self.pos.width, self.pos.height))
         pygame.draw.rect(DISPLAYSURF, RED, tpos)
         
     def tileCollide(self, tiles):
         testPos = pygame.Rect((self.npos.left, self.npos.top), (self.width, self.height))
-        
         for tile in tiles:
             if(tile.properties['solid'] and testPos.colliderect(tile.getRect())):
                 self.explode()

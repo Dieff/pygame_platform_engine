@@ -45,7 +45,7 @@ class Area:
         self.fadingIn = True
         self.timer.set(200)
         self.timer.start()
-        globe.Updater.registerDrawee(self.transition, ['nominal','paused'],[])
+        globe.Updater.registerDrawee(self.transition, ['nominal','paused'],[], 'hud')
         self.changeRoom(self.newRoomId)
         if(self.npl):
             globe.Updater.spawnPlayer(self.npl)
@@ -61,7 +61,7 @@ class Area:
         
         self.timer.set(200)
         self.timer.start()
-        globe.Updater.registerDrawee(self.transition, ['nominal','paused'],[])
+        globe.Updater.registerDrawee(self.transition, ['nominal','paused'],[], 'hud')
         
     def transition(self):
         if(self.timer.isDone()):

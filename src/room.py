@@ -6,7 +6,7 @@ class Room:
     def __init__(self):
         self.areaId = ''
         self.roomId = ''
-        globe.Updater.registerDrawee(self.draw)
+        globe.Updater.registerDrawee(self.draw, ['nominal'], [], 'back')
         globe.Updater.registerUpdatee(self.update, ['nominal'], ['paused'])
         self.tiles = []
         self.backgroundTiles = []

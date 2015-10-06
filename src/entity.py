@@ -20,6 +20,7 @@ class Entity:
     def update(self, elapsed_time):
         if(self.curSprite):
             self.curSprite.update(elapsed_time)
+        self.pos.inflate((self.width - self.pos.width),(self.height - self.pos.height))
     
     def draw(self, pos):
         if(self.curSprite):
@@ -38,7 +39,7 @@ class Entity:
     def spawn(self, location):
         self.pos = pygame.Rect(location[0], location[1], self.width, self.height)
         
-    def getNextPos(self):
+    def getNextPosition(self):
         return self.pos
     
     def characterCollide(self, collisionEntity):
@@ -75,7 +76,7 @@ class PhysicsEntity(Entity):
         self.vel = (0,0)
         self.npos = self.pos
     
-    def getNextPos(self):
+    def getNextPosition(self):
         return self.npos
     
     def register(self):
@@ -95,6 +96,7 @@ class PhysicsEntity(Entity):
         
     def update(self, elapsed):
         super().update(elapsed)
+        self.npos.inflate((self.width - self.npos.width),(self.height - self.npos.height))
         self.setTempPosition(elapsed)
         
     def getCollidePoints(self):
@@ -113,7 +115,6 @@ class HealthEntity(PhysicsEntity):
         self.health = self.maxHealth
         
     def kill(self):
-        print('Shit Im Dead!')
         self.unRegister()
         
     def setMaxHealth(self, health):

@@ -106,7 +106,7 @@ class Camera:
         return (pos[0] - self.offsetX, pos[1] - self.offsetY)
     
     def getPlayerDrawPos(self):
-        return self.realPlayerPos
+        return (self.realPlayerPos[0], self.realPlayerPos[1])
     
     def getBackgroundDrawPos(self, pos):
         scrollFactorX = globe.Room.getPref('bgScollFactorX')

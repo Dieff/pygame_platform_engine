@@ -78,7 +78,7 @@ class Player(HealthEntity):
         
     def register(self):
         globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
-        globe.Updater.registerDrawee(self.draw)
+        globe.Updater.registerDrawee(self.draw, ['nominal'], [], 'player')
         globe.Updater.registerRoomCollidee(self, ['nominal'], ['room-transition', 'paused'])
         globe.Updater.addCollideableEntity(self, ['nominal'], ['room-transition', 'paused'])
                 
