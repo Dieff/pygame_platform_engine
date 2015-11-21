@@ -87,12 +87,6 @@ class Updater:
             if(not(self.objectPermitteable(pto))):
                 continue
             for entity in self.entities:
-                
-                tpos = globe.Camera.getDrawPos(entity['object'].getNextPosition())
-                tpos = pygame.Rect(tpos, (entity['object'].width, entity['object'].height))
-                pygame.draw.rect(DISPLAYSURF, GREEN, tpos)
-                
-                
                 if(not(pto['object'] == entity['object']) and pto['object'].getNextPosition().colliderect(entity['object'].getNextPosition())):
                     pto['object'].characterCollide(entity['object'])
 

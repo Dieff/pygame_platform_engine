@@ -13,7 +13,7 @@ class Projectile(PhysicsEntity):
         self.pos.width = 4
         self.pos.height = 4
         
-        self.npos.inflate((self.width - self.npos.width),(self.height - self.npos.height))
+        self.npos = self.pos
         
         self.kil = False
         
@@ -48,9 +48,9 @@ class Projectile(PhysicsEntity):
         pygame.draw.rect(DISPLAYSURF, RED, tpos)
         
     def tileCollide(self, tiles):
-        testPos = pygame.Rect((self.npos.left, self.npos.top), (self.width, self.height))
         for tile in tiles:
-            if(tile.properties['solid'] and testPos.colliderect(tile.getRect())):
+            if(tile.properties['solid'] and self.npos.colliderect(tile.getRect())):
+                print('boom')
                 self.explode()
                 
     def characterCollide(self, charObj):

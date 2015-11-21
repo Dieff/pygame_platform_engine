@@ -14,3 +14,21 @@ character collision
 	-projectiles are characters
 	-The entity that affects the other handles it
 	-only gets collideable chars
+	
+	
+	
+	
+Menus
+	menu types
+		-standard menu
+			up/down
+		-rotating menu
+			right/left
+		-tip text
+			no interection
+			
+	menu item class
+		-text item
+			text,color
+		-sprite item
+			unselected pic, selected pic
