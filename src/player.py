@@ -71,7 +71,6 @@ class Player(HealthEntity):
         self.maxHealth = 100
         self.health = 100
         
-        
         self.weapon = Gun()
         
         self.register()

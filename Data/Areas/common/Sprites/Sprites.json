@@ -431,6 +431,27 @@
 	}
 ],
 "animationTime":500
+},
+{
+"name":"kawaii-slime",
+"file":"KawaiiSlime.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	},
+	{
+	"rowX":1,
+	"rowY":0
+	},
+	{
+	"rowX":2,
+	"rowY":0
+	}
+],
+"animationTime":200
 }
 
 

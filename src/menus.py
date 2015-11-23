@@ -81,7 +81,7 @@ class TextItem(Entity):
                     
                     
             if(item[1] == 'image'):
-                self.spacedText.append(item[0],item[1],(widthCounter,heightCounter))
+                self.spacedText.append((item[0],item[1],(widthCounter,heightCounter)))
                 widthCounter += item[0].getWidth()
                 if(item[0].getHeight() > curHeight):
                     curHeight = item[0].getHeight()
@@ -98,7 +98,11 @@ class TextItem(Entity):
             self.curWidth = widthCounter
         self.width = self.curWidth
         self.height = heightCounter + curHeight
-               
+          
+    def update(self, elapsedTime):
+        for item in self.spacedText:
+            if(item[1]=='image'):
+                item[0].update(elapsedTime)     
         
     def draw(self):
         for item in self.spacedText:
@@ -108,7 +112,7 @@ class TextItem(Entity):
                 text.set_colorkey(GREY)
                 DISPLAYSURF.blit(text, self.pos.move(item[2]))
             elif(item[1]=='image'):
-                item[0].draw(slef.pos.move(item[2]))
+                item[0].draw((self.pos.x +item[2][0], self.pos.y+item[2][1]))
 
 
 '''
@@ -213,6 +217,9 @@ class MenuList:
         else:
             self.fect = False
     
+        for item in self.items:
+            item.update(elapsed)
+    
     def draw(self):
         if(self.direction == 'vertical' or self.direction == 'Vertical'):
             yCounter = 0
@@ -246,7 +253,6 @@ class TitleScreen:
         self.additionalList.draw()
         
     def startGame(self):
-        print('go!!!')
         globe.State.addState('nominal')
         globe.Camera.start(globe.Updater.Player)
         globe.Area.initialCinematicLoad('starting-point', (32,356))
@@ -260,7 +266,7 @@ class TitleScreen:
         self.additionalList = MenuList([('Do Shit', False, False),('Do More Shit',False,False),('Shitt!!!!',False,False)], pygame.K_DOWN, pygame.K_UP, pygame.K_RETURN, (50,50))
         
     def buildCredits(self):
-        self.additionalList = TextItem('We did shit', startPos=pygame.Rect((50,50),(0,0)))
+        self.additionalList = TextItem('We did shit <kawaii-slime>', startPos=pygame.Rect((50,50),(0,0)))
         #self.additionalList.pos = pygame.Rect((50,50),(0,0))
         
     def buildExit(self):
