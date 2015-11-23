@@ -32,3 +32,10 @@ Menus
 			text,color
 		-sprite item
 			unselected pic, selected pic
+			
+			
+Strings
+	Bold, italics, regular
+	Image
+	Breaks
+	Scroll speed

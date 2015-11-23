@@ -10,6 +10,7 @@ from src.room import *
 from src.graphics import *
 from src.area import *
 from src.hud import *
+from src.menus import *
 import src.globe as globe
 
 pygame.init()
@@ -25,28 +26,28 @@ fps_meter = fps_meter()
 globe.Loader = Loader()
 globe.Loader.LoadAreas(['Default', 'Common'])
 globe.State = State()
-globe.State.addState('nominal')
 globe.Updater = Updater()
 globe.Area = Area()
 globe.Area.loadArea('test')
 
 Player = Player()
 globe.Camera = Camera()
-globe.Camera.start(Player)
 globe.Updater.setPlayer(Player)
 globe.Hud = Hud()
 
-globe.Area.initialCinematicLoad('starting-point', (32,356))
-
-#Player.unRegister()
-#Player.register()
+globe.State.addState('started')
 
 iDown = False
 lDown = False
 updateToggle = False
 fullScreen = False
 
+starter = TitleScreen()
+starter.register()
+
+
 while True:
+    #print('NEXT FRAME')
     if(ELAPSED > MAX_FRAME_TIME):
         ELAPSED = MAX_FRAME_TIME
         

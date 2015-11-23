@@ -418,5 +418,21 @@
 	}
 ],
 "animationTime":500
+},
+{
+"name":"smile",
+"file":"smile.png",
+"frameWidth":12,
+"frameHeight":12,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":0
+	}
+],
+"animationTime":500
 }
+
+
+
 ]

@@ -1,31 +1,27 @@
 from src.constants import *
 from src.entity import *
+from src.menus import *
 from src.utilities import *
 import src.globe as globe
 import pygame
 
 
-class DisplayMessage(Entity):
+class DisplayMessage(TextItem):
     def __init__(self, text, duration, location):
-        super().__init__()
+        super().__init__(text, textSize=30)
         self.deleteMe = False
         self.timer = Timer()
         self.timer.set(duration)
         self.spawn(location)
         if(not(duration == 0)):
             self.timer.start()
-        self.text = text
 
     def draw(self):
         if(self.timer.isDone()):
             self.deleteMe = True
-            self.unRegister()
-            
-        font = pygame.font.SysFont('Georgia', 27, False, True,)
-        text = font.render(self.text, 1, WHITE, GREY)
-        text.set_colorkey(GREY)
-        DISPLAYSURF.blit(text, self.pos)
-            
+            self.unRegister()    
+        super().draw()
+        
     def delete(self):
         return self.deleteMe
     

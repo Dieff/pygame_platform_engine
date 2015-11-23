@@ -3,6 +3,16 @@ This file has documentation of all of the options for json data files
 params that start with ! are required (! not really there)
 params that start with * are planned but not yet implemented
 
+MENUS
+	!name - the name of the menu schema for loading purposes
+	list - the scrolleable section of the menu
+		items - items for scrolling through
+			itemText - the appearence of the item, a text string
+			onSelect - what to do when the item is selected
+		keyup - a key to move up the list
+		keydown - a key to move down the list
+		type - the direction of the list, "horizontal", or "vertical"
+		infiniScroll - bool, does the list have an end (True or False)
 
 SPRITES
 	!name - the name of the sprite for loading purposes
@@ -49,6 +59,14 @@ ROOMS
 			posY - the initial y position of the entity
 			action - a data chunk that will give the entity object some clue as to what to do with itself
 			*startAfter - this entity will only be spawned after a certain global event occurs
+
+
+DIALOG
+
+
+ITEMS
+
+
 
 *NOISES
 

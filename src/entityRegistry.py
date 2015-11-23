@@ -1,7 +1,7 @@
 from src.entity import *
 from src.entities.doors import *
-from src.enemies.bat import *
-from src.enemies.spike import *
+from src.characters.bat import *
+from src.characters.spike import *
 
 Entities = {
             "door":Door,

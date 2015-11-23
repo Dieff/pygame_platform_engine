@@ -1,0 +1,5 @@
+This file contains commands for text strings used throughout the game in dialog and menus
+
+Insert Image with <image-name>
+
+Insert line break for long texts with ;

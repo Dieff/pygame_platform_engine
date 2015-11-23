@@ -1,4 +1,4 @@
-from src.enemies.enemy import *
+from src.characters.enemy import *
 from src.constants import *
 import src.globe as globe
 import math

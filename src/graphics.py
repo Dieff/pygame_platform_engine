@@ -63,7 +63,6 @@ class Camera:
     def __init__(self):
         self.offsetX = 0
         self.offsetY = 0
-        globe.Updater.registerUpdatee(self.update)
         self.idealPlayerPos = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
         self.realPlayerPos = self.idealPlayerPos
         self.scollingX = False
@@ -72,6 +71,7 @@ class Camera:
     def start(self, player):
         self.player = player
         self.oldPos = player.pos
+        globe.Updater.registerUpdatee(self.update)
         
     def update(self, elapsed_time):
         #Handling x scroll
