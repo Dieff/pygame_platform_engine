@@ -12,7 +12,7 @@ WINDOWWIDTH = TILE_SIZE*20
 
 WINDOWHEIGHT = TILE_SIZE*16
 
-flags = pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.HWSURFACE #| pygame.OPENGL  # pygame.HWACCEL# | pygame.FULLSCREEN # | pygame.RESIZABLE
+flags = pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.HWSURFACE | pygame.HWACCEL #| pygame.OPENGL  # pygame.HWACCEL# | pygame.FULLSCREEN # | pygame.RESIZABLE
 
 DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 #DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), flags, 32)
@@ -33,7 +33,7 @@ PURPLE   = (255,   0, 255)
 CYAN     = (  0, 255, 255)
 TRANSPARENT = (255, 0, 255)
 BLACK = (0,0,0)
-LIGHT_GREY = (191, 191, 191)
+LIGHT_GREY = (150, 150, 150)
 
 
 PATH_TO_AREAS = os.path.join('Data', 'Areas')

@@ -260,13 +260,13 @@ class TitleScreen:
         globe.Updater.removeDrawee(self.draw)
         
     def buildPlay(self):
-        self.additionalList = MenuList([('Load Game', False, False),('Start Game',self.startGame,False)], pygame.K_DOWN, pygame.K_UP, pygame.K_RETURN, (50,50))
+        self.additionalList = MenuList([('Load Game', False, False),('New Game',self.startGame,False)], pygame.K_DOWN, pygame.K_UP, pygame.K_RETURN, (50,50))
         
     def buildOptions(self):
         self.additionalList = MenuList([('Do Shit', False, False),('Do More Shit',False,False),('Shitt!!!!',False,False)], pygame.K_DOWN, pygame.K_UP, pygame.K_RETURN, (50,50))
         
     def buildCredits(self):
-        self.additionalList = TextItem('We did shit <kawaii-slime>', startPos=pygame.Rect((50,50),(0,0)))
+        self.additionalList = TextItem('Look at these sprites and shit ; <kawaii-slime> ; <protag2-running-right>', startPos=pygame.Rect((50,50),(0,0)))
         #self.additionalList.pos = pygame.Rect((50,50),(0,0))
         
     def buildExit(self):

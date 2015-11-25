@@ -452,6 +452,39 @@
 	}
 ],
 "animationTime":200
+},
+{
+"name":"protag2-running-right",
+"file":"Sheet2.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":2
+	},
+	{
+	"rowX":1,
+	"rowY":2
+	},
+	{
+	"rowX":0,
+	"rowY":3
+	},
+	{
+	"rowX":1,
+	"rowY":3
+	},
+	{
+	"rowX":0,
+	"rowY":4
+	},
+	{
+	"rowX":1,
+	"rowY":4
+	}
+],
+"animationTime":100
 }
 
 
