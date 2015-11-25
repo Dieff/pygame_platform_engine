@@ -6,20 +6,20 @@
 "frameHeight":32,
 "frames":[
 	{
-	"rowX":0,
-	"rowY":2
-	},
-	{
-	"rowX":1,
-	"rowY":2
-	},
-	{
 	"rowX":2,
-	"rowY":2
+	"rowY":0
 	},
 	{
 	"rowX":3,
-	"rowY":2
+	"rowY":0
+	},
+	{
+	"rowX":2,
+	"rowY":1
+	},
+	{
+	"rowX":3,
+	"rowY":1
 	}
 ],
 "animationTime":500
@@ -39,12 +39,12 @@
 	"rowY":0
 	},
 	{
-	"rowX":2,
-	"rowY":0
+	"rowX":0,
+	"rowY":1
 	},
 	{
-	"rowX":3,
-	"rowY":0
+	"rowX":1,
+	"rowY":1
 	}
 ],
 "animationTime":500
@@ -74,11 +74,11 @@
 "frames":[
 	{
 	"rowX":2,
-	"rowY":3
+	"rowY":0
 	},
 	{
 	"rowX":3,
-	"rowY":3
+	"rowY":0
 	}
 ],
 "animationTime":100
@@ -94,15 +94,11 @@
 	"rowY":1
 	},
 	{
-	"rowX":3,
-	"rowY":1
+	"rowX":4,
+	"rowY":0
 	},
 	{
-	"rowX":2,
-	"rowY":1
-	},
-	{
-	"rowX":3,
+	"rowX":0,
 	"rowY":1
 	}
 ],
@@ -115,20 +111,16 @@
 "frameHeight":32,
 "frames":[
 	{
-	"rowX":3,
-	"rowY":3
-	},
-	{
-	"rowX":1,
+	"rowX":5,
 	"rowY":3
 	},
 	{
 	"rowX":2,
-	"rowY":3
+	"rowY":0
 	},
 	{
-	"rowX":1,
-	"rowY":3
+	"rowX":2,
+	"rowY":0
 	}
 ],
 "animationTime":100
@@ -140,12 +132,12 @@
 "frameHeight":32,
 "frames":[
 	{
-	"rowX":0,
-	"rowY":5
+	"rowX":2,
+	"rowY":0
 	},
 	{
-	"rowX":1,
-	"rowY":5
+	"rowX":3,
+	"rowY":0
 	}
 ],
 "animationTime":100
@@ -158,6 +150,72 @@
 "frames":[
 	{
 	"rowX":0,
+	"rowY":0
+	},
+	{
+	"rowX":1,
+	"rowY":0
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-running-left",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":2,
+	"rowY":2
+	},
+	{
+	"rowX":3,
+	"rowY":2
+	},
+	{
+	"rowX":2,
+	"rowY":3
+	},
+	{
+	"rowX":3,
+	"rowY":3
+	},
+		{
+	"rowX":2,
+	"rowY":4
+	},
+	{
+	"rowX":3,
+	"rowY":4
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-running-right",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":2
+	},
+	{
+	"rowX":1,
+	"rowY":2
+	},
+	{
+	"rowX":0,
+	"rowY":3
+	},
+	{
+	"rowX":1,
+	"rowY":3
+	},
+		{
+	"rowX":0,
 	"rowY":4
 	},
 	{
@@ -168,168 +226,11 @@
 "animationTime":100
 },
 
-
-
-
-{
-"name":"quote-stand-left",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":0
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-stand-right",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":1
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-walk-left",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":0
-	},
-	{
-	"rowX":1,
-	"rowY":0
-	},
-	{
-	"rowX":2,
-	"rowY":0
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-walk-right",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":1
-	},
-	{
-	"rowX":1,
-	"rowY":1
-	},
-	{
-	"rowX":2,
-	"rowY":1
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-jumpUp-left",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":1,
-	"rowY":0
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-jumpDown-left",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":4,
-	"rowY":0
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-jumpUp-right",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":1,
-	"rowY":1
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-jumpDown-right",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":4,
-	"rowY":1
-	}
-],
-"animationTime":100
-},
-{
-"name":"quote-hurt-left",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":0
-	},
-	{
-	"rowX":9,
-	"rowY":0
-	}
-],
-"animationTime":50
-},
-{
-"name":"quote-hurt-right",
-"file":"quote_sheet.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":1
-	},
-	{
-	"rowX":9,
-	"rowY":0
-	}
-],
-"animationTime":50
-},
 {
 "name":"door",
 "file":"door.png",
-"frameWidth":20,
-"frameHeight":33,
+"frameWidth":32,
+"frameHeight":64,
 "frames":[
 	{
 	"rowX":0,
@@ -434,7 +335,7 @@
 },
 {
 "name":"kawaii-slime",
-"file":"KawaiiSlime.png",
+"file":"Harold.png",
 "frameWidth":32,
 "frameHeight":32,
 "frames":[
@@ -452,41 +353,6 @@
 	}
 ],
 "animationTime":200
-},
-{
-"name":"protag2-running-right",
-"file":"Sheet2.png",
-"frameWidth":32,
-"frameHeight":32,
-"frames":[
-	{
-	"rowX":0,
-	"rowY":2
-	},
-	{
-	"rowX":1,
-	"rowY":2
-	},
-	{
-	"rowX":0,
-	"rowY":3
-	},
-	{
-	"rowX":1,
-	"rowY":3
-	},
-	{
-	"rowX":0,
-	"rowY":4
-	},
-	{
-	"rowX":1,
-	"rowY":4
-	}
-],
-"animationTime":100
 }
-
-
 
 ]

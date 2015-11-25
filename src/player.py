@@ -48,10 +48,8 @@ class Player(HealthEntity):
         self.addSprite('hurt-right', globe.Loader.getSprite('common', 'protagonist-hurt-right'))
         self.addSprite('falling-right', globe.Loader.getSprite('common', 'protagonist-falling-right'))
         self.addSprite('falling-left', globe.Loader.getSprite('common', 'protagonist-falling-left'))
-        
-        #need sprites
-        self.addSprite('walk-left', globe.Loader.getSprite('common', 'quote-walk-left'))
-        self.addSprite('walk-right', globe.Loader.getSprite('common', 'quote-walk-right'))
+        self.addSprite('walk-left', globe.Loader.getSprite('common', 'protagonist-running-left'))
+        self.addSprite('walk-right', globe.Loader.getSprite('common', 'protagonist-running-right'))
         
         self.orientation = 'left'
         self.action = 'stand'
@@ -74,6 +72,8 @@ class Player(HealthEntity):
         self.weapon = Gun()
         
         self.register()
+        
+        self.badTiles = []
         
     def register(self):
         globe.Updater.registerUpdatee(self.update, ['nominal'], ['room-transition', 'paused'])
@@ -175,9 +175,28 @@ class Player(HealthEntity):
         super().draw(pdp)
         self.weapon.draw(pygame.Rect(pdp, (1,1)))
         
+        '''for item in self.badTiles:
+            print(globe.Camera.getDrawPos(item))
+            pygame.draw.rect(DISPLAYSURF, RED, pygame.Rect(globe.Camera.getDrawPos(item), (32,32)))'''
+        
     def tileCollide(self, tiles):
-        #A shitty fix for collision bugs
-        #make this better!!!
+        '''experimental algorithm november 25
+           step 1:
+            for each side of a potential tile solve for the intersection between side(line segment) and velocity vector
+           step 2:
+            find the distance between the old position and this intersection point
+           step 3:
+            determine which distance is hte shortest, the first collision happens on that side
+           step 4:
+            now we know where a collision occurs and on which side
+           step 5:
+            profit
+            
+            
+            RIGHT AND LEFT ARE CURRENTLY BROKEN WHEN COMPARED WITH TOP AND BOTTOM
+            
+            '''
+        
         self.colRecursionDepth +=1
         if(self.colRecursionDepth > 25):
             print('ERROR caught in collision detection. crashing prevented. velocity killed')
@@ -186,112 +205,108 @@ class Player(HealthEntity):
             self.vel = (0,0)
             return True
         
+        
+        currentPosition = self.npos
+        oldPosition = self.pos
+        
+        #this is to take a limit
+        adjustedVelocity = (self.vel[0] + 0.00001, self.vel[1] + 0.00001)
+        
         colHappened = False
         
-        self.getCollidePoints()
-        currect = self.npos
-        for item in tiles:
-            ir = item.getRect()
-            if(currect.colliderect(ir)):
-                if(item.properties['solid']):
-                    self.getCollidePoints()
-                    tileCenter = (ir.center)
-                    #Creates an array of the distances between collidepoints and tile center
-                    distances = [getDistance(self.top, tileCenter),getDistance(self.bottom, tileCenter),getDistance(self.left, tileCenter),getDistance(self.right,tileCenter)]
-                    #determines smallest distance (index of smallest number in distances)
-                    smallestIndex = distances.index(min(distances))
-                    #does shit based on the collision side
-                    if(smallestIndex == 0):
-                        #Top collision
-                        if(not(item.canCollisionOccur('top'))):
-                            continue
-                        #print('TOP')
-                        dY = abs(self.npos.top - self.pos.top)
-                        badY = abs(ir.bottom - self.npos.top)
-                        okY = abs(dY - badY)
-                        self.npos = pygame.Rect(self.npos.left, self.pos.top-okY, self.width, self.height)
-                        self.vel = (self.vel[0], 0)
-                            
-                        self.jumpCounter = 0
-                        self.jumpJuice = 0
-                        
-                        if(abs(self.npos.top - self.pos.top) >= TILE_SIZE):
-                            print('ERROR in top side collision detection')
-                            
-                        colHappened = True
-
-                    elif(smallestIndex == 1):
-                        #Bottom collision
-                        if(not(item.canCollisionOccur('bottom'))):
-                            continue
-                        #print('BOTTOM')
-                        dY = abs(self.npos.bottom - self.pos.bottom)
-                        badY = abs(ir.top - self.npos.bottom)
-                        okY = abs(dY - badY)
-                        self.npos = pygame.Rect(self.npos.left, self.pos.top+okY, self.width, self.height)
-                        
-                        
-                        if(abs(self.vel[0]) >= self.friction*self.elapsed and not(self.running)):
-                            if(self.vel[0] > 0):
-                                self.vel = (self.vel[0] - self.friction*self.elapsed, self.vel[1])
-                            else:
-                                self.vel = (self.vel[0] + self.friction*self.elapsed, self.vel[1])
-                        elif(not(self.running)):
-                            self.vel = (0, self.vel[1])
-                            
-                        self.jumpJuice = self.maxJumpTime
-
-                        colHappened = True
-                        self.onBottom = True
-                        self.fallingTime = 0
-                        self.isJumping = False
-                        
-                    elif(smallestIndex == 2):
-                        #Left collision
-                        if(not(item.canCollisionOccur('left'))):
-                            continue
-                        #print('LEFT')
-                        dX = abs(self.npos.left - self.pos.left)
-                        badX = abs(ir.right - self.npos.left)
-                        okX = abs(dX - badX)
-                        self.npos = pygame.Rect(self.pos.left-okX, self.npos.top, self.width, self.height)
-                        self.vel = (0, self.vel[1])
-                        
-                        if(abs(self.npos.left - self.pos.left)>=TILE_SIZE):
-                            print('ERROR in left side collision detection')
-                        
-                        colHappened = True
-                        
-                    else:
-                        #Right Collision
-                        if(not(item.canCollisionOccur('right'))):
-                            continue
-                        #print('RIGHT')
-                        dX = abs(self.npos.right - self.pos.right)
-                        badX = abs(ir.left - self.npos.right)
-                        okX = abs(dX - badX)
-                        self.npos = pygame.Rect(self.pos.left+okX, self.npos.top, self.width, self.height)
-                        self.vel = (0, self.vel[1])
-                    
-                        if(abs(self.npos.left - self.pos.left)>=TILE_SIZE):
-                            print('ERROR in right side collision detection')
-                            
-                        colHappened = True
-                        
-            #we run the tile collision algorithm until no more collisions are detected
-            #occasionally things break and we get infinite recursion
-            #this helps debug things
-            if(colHappened):
-                try:
-                    self.tileCollide(tiles)
-                except RuntimeError:
-                    print('Error Caught in collision detection', self.colRecursionDepth)
-                    return True
-                self.colHappened = False
-                        
-                
+        self.badTiles = []
         
-        self.setPermanentPosition()
+        for colidedTile in tiles:
+            tilePosition = colidedTile.getRect()
+            if(currentPosition.colliderect(tilePosition) and colidedTile.properties['solid']):
+                
+                self.badTiles.append(tilePosition)
+                
+                if(colidedTile.canCollisionOccur('bottom')):
+                   bottomIntersectDistance = math.sqrt((((oldPosition.bottom - tilePosition.top)*self.vel[0])/adjustedVelocity[1])**2 + (tilePosition.top-oldPosition.bottom)**2)
+                else:
+                    bottomIntersectDistance = 10000
+                
+                if(colidedTile.canCollisionOccur('top')):
+                    topIntersectDistance = math.sqrt((((oldPosition.top - tilePosition.bottom)*self.vel[0])/adjustedVelocity[1])**2 + (tilePosition.bottom-oldPosition.top)**2)
+                else:
+                    topIntersectDistance = 10000
+                
+                if(colidedTile.canCollisionOccur('right')):
+                    rightIntersectDistance = math.sqrt((oldPosition.right - tilePosition.left)**2 + ((((oldPosition.right - tilePosition.left)*self.vel[1])/(adjustedVelocity[0])))**2)
+                else:
+                    rightIntersectDistance = 10000
+                    
+                if(colidedTile.canCollisionOccur('left')):
+                    leftIntersectDistance = math.sqrt((oldPosition.left - tilePosition.right)**2 + ((((oldPosition.left - tilePosition.right)*self.vel[1])/(adjustedVelocity[0])))**2)
+                else:
+                    leftIntersectDistance = 10000
+                
+                #print('b', bottomIntersectDistance, 't', topIntersectDistance, 'l', leftIntersectDistance, 'r', rightIntersectDistance)
+                
+                correctDistance = min(bottomIntersectDistance, topIntersectDistance, leftIntersectDistance, rightIntersectDistance)
+        
+                if(correctDistance >= TILE_SIZE):
+                    print('collision error: No possible collisions found')
+                elif(correctDistance == bottomIntersectDistance and correctDistance < TILE_SIZE):
+                    #print('collision bottom')
+                    dY = abs(self.npos.bottom - self.pos.bottom)
+                    badY = abs(tilePosition.top - self.npos.bottom)
+                    okY = abs(dY - badY)
+                    self.npos = pygame.Rect(self.npos.left, self.pos.top+okY, self.width, self.height)
+                         
+                    if(abs(self.vel[0]) >= self.friction*self.elapsed and not(self.running)):
+                        if(self.vel[0] > 0):
+                            self.vel = (self.vel[0] - self.friction*self.elapsed, self.vel[1])
+                        else:
+                            self.vel = (self.vel[0] + self.friction*self.elapsed, self.vel[1])
+                    elif(not(self.running)):
+                        self.vel = (0, self.vel[1])
+                            
+                    self.jumpJuice = self.maxJumpTime
+
+                    colHappened = True
+                    self.onBottom = True
+                    self.fallingTime = 0
+                    self.isJumping = False
+                        
+                elif(correctDistance == topIntersectDistance and correctDistance < TILE_SIZE):
+                    #print('collision top')
+                    dY = abs(self.npos.top - self.pos.top)
+                    badY = abs(tilePosition.bottom - self.npos.top)
+                    okY = abs(dY - badY)
+                    self.npos = pygame.Rect(self.npos.left, self.pos.top-okY, self.width, self.height)
+                    self.vel = (self.vel[0], 0)
+                    self.jumpCounter = 0
+                    self.jumpJuice = 0
+                    colHappened = True
+                    
+                elif(correctDistance == leftIntersectDistance and correctDistance < TILE_SIZE):
+                    #print('collision left')
+                    dX = abs(self.npos.left - self.pos.left)
+                    badX = abs(tilePosition.right - self.npos.left)
+                    okX = abs(dX - badX)
+                    self.npos = pygame.Rect(self.pos.left-okX, self.npos.top, self.width, self.height)
+                    self.vel = (0, self.vel[1])
+                        
+                    colHappened = True
+                    
+                    
+                elif(correctDistance == rightIntersectDistance and correctDistance < TILE_SIZE):
+                    #print('collision right')
+                    dX = abs(self.npos.right - self.pos.right)
+                    badX = abs(tilePosition.left - self.npos.right)
+                    okX = abs(dX - badX)
+                    self.npos = pygame.Rect(self.pos.left+okX, self.npos.top, self.width, self.height)
+                    self.vel = (0, self.vel[1])
+                
+                    colHappened = True
+                
+                
+        if(colHappened):
+            self.tileCollide(tiles)
+        else:
+            self.setPermanentPosition()
         
     def setInvincible(self):
         self.invuln = True

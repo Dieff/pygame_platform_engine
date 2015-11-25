@@ -35,6 +35,7 @@ class Area:
             self.roomId = roomId
             
         self.Room.load(self.areaId, self.roomId)
+        globe.Hud.removeAllText()
         globe.Hud.displayText(1000, self.Room.getDisplayName(), (WINDOWWIDTH / 3, 100))
         
     def initialCinematicLoad(self, newRoomId, newPlayerLocation):

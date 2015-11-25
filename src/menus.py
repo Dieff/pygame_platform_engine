@@ -266,7 +266,7 @@ class TitleScreen:
         self.additionalList = MenuList([('Do Shit', False, False),('Do More Shit',False,False),('Shitt!!!!',False,False)], pygame.K_DOWN, pygame.K_UP, pygame.K_RETURN, (50,50))
         
     def buildCredits(self):
-        self.additionalList = TextItem('Look at these sprites and shit ; <kawaii-slime> ; <protag2-running-right>', startPos=pygame.Rect((50,50),(0,0)))
+        self.additionalList = TextItem('Look at these sprites and shit ; <kawaii-slime> ; <smile>', startPos=pygame.Rect((50,50),(0,0)))
         #self.additionalList.pos = pygame.Rect((50,50),(0,0))
         
     def buildExit(self):

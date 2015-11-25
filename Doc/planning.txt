@@ -16,26 +16,127 @@ character collision
 	-only gets collideable chars
 	
 	
-	
-	
-Menus
-	menu types
-		-standard menu
-			up/down
-		-rotating menu
-			right/left
-		-tip text
-			no interection
-			
-	menu item class
-		-text item
-			text,color
-		-sprite item
-			unselected pic, selected pic
-			
 			
 Strings
 	Bold, italics, regular
-	Image
-	Breaks
-	Scroll speed
+	Scrolling
+	
+	
+	
+Old Collision Code
+        '''#A shitty fix for collision bugs
+        #make this better!!!
+        self.colRecursionDepth +=1
+        if(self.colRecursionDepth > 25):
+            print('ERROR caught in collision detection. crashing prevented. velocity killed')
+            self.npos = self.pos
+            self.setPermanentPosition()
+            self.vel = (0,0)
+            return True
+        
+        colHappened = False
+        
+        self.getCollidePoints()
+        currect = self.npos
+        for item in tiles:
+            ir = item.getRect()
+            if(currect.colliderect(ir)):
+                if(item.properties['solid']):
+                    self.getCollidePoints()
+                    tileCenter = (ir.center)
+                    #Creates an array of the distances between collidepoints and tile center
+                    distances = [getDistance(self.top, tileCenter),getDistance(self.bottom, tileCenter),getDistance(self.left, tileCenter),getDistance(self.right,tileCenter)]
+                    #determines smallest distance (index of smallest number in distances)
+                    smallestIndex = distances.index(min(distances))
+                    #does shit based on the collision side
+                    if(smallestIndex == 0):
+                        #Top collision
+                        if(not(item.canCollisionOccur('top'))):
+                            continue
+                        #print('TOP')
+                        dY = abs(self.npos.top - self.pos.top)
+                        badY = abs(ir.bottom - self.npos.top)
+                        okY = abs(dY - badY)
+                        self.npos = pygame.Rect(self.npos.left, self.pos.top-okY, self.width, self.height)
+                        self.vel = (self.vel[0], 0)
+                            
+                        self.jumpCounter = 0
+                        self.jumpJuice = 0
+                        
+                        if(abs(self.npos.top - self.pos.top) >= TILE_SIZE):
+                            print('ERROR in top side collision detection')
+                            
+                        colHappened = True
+
+                    elif(smallestIndex == 1):
+                        #Bottom collision
+                        if(not(item.canCollisionOccur('bottom'))):
+                            continue
+                        #print('BOTTOM')
+                        dY = abs(self.npos.bottom - self.pos.bottom)
+                        badY = abs(ir.top - self.npos.bottom)
+                        okY = abs(dY - badY)
+                        self.npos = pygame.Rect(self.npos.left, self.pos.top+okY, self.width, self.height)
+                        
+                        
+                        if(abs(self.vel[0]) >= self.friction*self.elapsed and not(self.running)):
+                            if(self.vel[0] > 0):
+                                self.vel = (self.vel[0] - self.friction*self.elapsed, self.vel[1])
+                            else:
+                                self.vel = (self.vel[0] + self.friction*self.elapsed, self.vel[1])
+                        elif(not(self.running)):
+                            self.vel = (0, self.vel[1])
+                            
+                        self.jumpJuice = self.maxJumpTime
+
+                        colHappened = True
+                        self.onBottom = True
+                        self.fallingTime = 0
+                        self.isJumping = False
+                        
+                    elif(smallestIndex == 2):
+                        #Left collision
+                        if(not(item.canCollisionOccur('left'))):
+                            continue
+                        #print('LEFT')
+                        dX = abs(self.npos.left - self.pos.left)
+                        badX = abs(ir.right - self.npos.left)
+                        okX = abs(dX - badX)
+                        self.npos = pygame.Rect(self.pos.left-okX, self.npos.top, self.width, self.height)
+                        self.vel = (0, self.vel[1])
+                        
+                        if(abs(self.npos.left - self.pos.left)>=TILE_SIZE):
+                            print('ERROR in left side collision detection')
+                        
+                        colHappened = True
+                        
+                    else:
+                        #Right Collision
+                        if(not(item.canCollisionOccur('right'))):
+                            continue
+                        #print('RIGHT')
+                        dX = abs(self.npos.right - self.pos.right)
+                        badX = abs(ir.left - self.npos.right)
+                        okX = abs(dX - badX)
+                        self.npos = pygame.Rect(self.pos.left+okX, self.npos.top, self.width, self.height)
+                        self.vel = (0, self.vel[1])
+                    
+                        if(abs(self.npos.left - self.pos.left)>=TILE_SIZE):
+                            print('ERROR in right side collision detection')
+                            
+                        colHappened = True
+                        
+            #we run the tile collision algorithm until no more collisions are detected
+            #occasionally things break and we get infinite recursion
+            #this helps debug things
+            if(colHappened):
+                try:
+                    self.tileCollide(tiles)
+                except RuntimeError:
+                    print('Error Caught in collision detection', self.colRecursionDepth)
+                    return True
+                self.colHappened = False
+                        
+                
+        
+        self.setPermanentPosition()'''

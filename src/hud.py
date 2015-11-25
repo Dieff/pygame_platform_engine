@@ -137,6 +137,11 @@ class Hud:
         self.currentDisplayEntities.append(display)
         return display
         
+    def removeAllText(self):
+        for item in self.currentDisplayEntities:
+            if(type(item) is DisplayMessage):
+                item.kill()
+        
     def update(self, elapsed):
         for item in self.currentDisplayEntities:
             if(item.delete()):
