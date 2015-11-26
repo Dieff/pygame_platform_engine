@@ -26,5 +26,9 @@
 {
 "name":"wut",
 "file":"wut.json"
+},
+{
+"name":"newTileTest",
+"file":"NTT.json"
 }
 ]

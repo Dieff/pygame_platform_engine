@@ -1,8 +1,15 @@
 import src.globe as globe
-from src.room import *
-from src.constants import *
 from src.utilities import *
+from src.update import *
+from src.room import *
+from src.player import *
+from src.loader import *
+from src.constants import *
+from src.room import *
+from src.graphics import *
+from src.area import *
 from src.hud import *
+from src.menus import *
 import pygame
 
 class Area:
@@ -17,6 +24,15 @@ class Area:
         self.fadingOut = False
         
         self.timer = Timer()
+        
+    def resetGame(self):
+        globe.State.states = []
+        globe.State.addState('nominal')
+        globe.Updater.setPlayer(Player())
+        globe.Hud.currentDisplayEntities = []
+        globe.Hud = Hud()
+        globe.Camera.start(globe.Updater.Player)
+        self.initialCinematicLoad('starting-point', (32,356))
         
     def getRoomId(self):
         return self.roomId

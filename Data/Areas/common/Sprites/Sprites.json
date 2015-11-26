@@ -225,7 +225,56 @@
 ],
 "animationTime":100
 },
-
+{
+"name":"protagonist-starting-left",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":2,
+	"rowY":5
+	},
+	{
+	"rowX":3,
+	"rowY":5
+	},
+	{
+	"rowX":2,
+	"rowY":6
+	},
+	{
+	"rowX":3,
+	"rowY":6
+	}
+],
+"animationTime":100
+},
+{
+"name":"protagonist-starting-right",
+"file":"protagonist.png",
+"frameWidth":32,
+"frameHeight":32,
+"frames":[
+	{
+	"rowX":0,
+	"rowY":5
+	},
+	{
+	"rowX":1,
+	"rowY":5
+	},
+	{
+	"rowX":0,
+	"rowY":6
+	},
+	{
+	"rowX":1,
+	"rowY":6
+	}
+],
+"animationTime":100
+},
 {
 "name":"door",
 "file":"door.png",

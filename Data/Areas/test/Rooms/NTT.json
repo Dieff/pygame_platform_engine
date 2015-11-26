@@ -1,0 +1,22 @@
+{
+"name":"newTileTest",
+"displayName":"Room for Testing New Tiles",
+"tiles":[],
+"bgTiles":[],
+"entities":[
+{
+"name":"door",
+"posX":0,
+"posY":0,
+"action":{
+	"room":"climbingWall",
+	"newPosX":1092,
+	"newPosY":100
+	}
+}
+
+]
+
+
+
+}

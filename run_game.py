@@ -42,8 +42,7 @@ lDown = False
 updateToggle = False
 fullScreen = False
 
-starter = TitleScreen()
-starter.register()
+globe.Hud.displayMenu(TitleScreen())
 
 
 while True:

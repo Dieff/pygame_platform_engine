@@ -63,7 +63,10 @@ class TextItem(Entity):
         self.doSpacing()
         
         if(startPos!=False):
-            self.pos=startPos
+            if(type(startPos) is pygame.Rect):
+                self.pos = startPos
+            else:
+                self.pos=pygame.Rect(startPos,(0,0))
         
     def doSpacing(self):
         widthCounter = 0
@@ -225,19 +228,43 @@ class MenuList:
             yCounter = 0
             for item in self.items:
                 item.pos.y = self.pos.y + yCounter
+                item.pos.x = self.pos.x
                 item.draw()
                 yCounter += item.height + self.ySpacing
         elif(self.direction == 'horizontal' or self.direction == 'Horizontal'):
             xCounter = 0
             for item in self.items:
+                item.pos.y = self.pos.y
                 item.pos.x = self.pos.x + xCounter
                 item.draw()
                 xCounter += item.width + self.xSpacing
 
+class GameOverScreen:
+    def __init__(self):
+        self.message = TextItem(myText='You Have Died', textSize=80, startPos=(10, 10))
+        self.dialog = MenuList([('Continue', self.keepGoing,False), ('Quit', self.end, False)],pygame.K_DOWN, pygame.K_UP, pygame.K_RETURN, startPosition=(WINDOWWIDTH/2,WINDOWHEIGHT/2), isInfinite=False, scrollDirection='vertical')
+
+    def register(self):
+        globe.Updater.registerUpdatee(self.update, ['death-scene'])
+        globe.Updater.registerDrawee(self.draw, ['death-scene'], group='hud')
+
+    def update(self, el):
+        self.dialog.update(el)
+        
+    def draw(self):
+        self.message.draw()
+        self.dialog.draw()
+
+    def keepGoing(self):
+        globe.Area.resetGame()
+    
+    def end(self):
+        pygame.quit()
+        sys.exit()
 
 class TitleScreen:
     def __init__(self):
-        self.topList = MenuList([('Play', False, self.buildPlay),('Options', False, self.buildOptions),('Credits', False, self.buildCredits),('Exit', False, self.buildExit)], pygame.K_RIGHT, pygame.K_LEFT, pygame.K_RETURN, (100,50), isInfinite=True, scrollDirection='horizontal')
+        self.topList = MenuList([('Play', False, self.buildPlay),('Options', False, self.buildOptions),('Credits', False, self.buildCredits),('Exit', False, self.buildExit)], pygame.K_RIGHT, pygame.K_LEFT, pygame.K_RETURN, (100,10), isInfinite=True, scrollDirection='horizontal')
         self.buildPlay()
 
     def register(self):
@@ -253,9 +280,7 @@ class TitleScreen:
         self.additionalList.draw()
         
     def startGame(self):
-        globe.State.addState('nominal')
-        globe.Camera.start(globe.Updater.Player)
-        globe.Area.initialCinematicLoad('starting-point', (32,356))
+        globe.Area.resetGame()
         globe.Updater.removeUpdatee(self.update)
         globe.Updater.removeDrawee(self.draw)
         

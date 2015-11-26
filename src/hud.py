@@ -127,6 +127,7 @@ class HealthBar(Meter):
 class Hud:
     def __init__(self):
         self.currentDisplayEntities = []
+        self.Menus = []
         globe.Updater.registerUpdatee(self.update)
         globe.Updater.registerDrawee(self.draw, ['nominal'], [], 'hud')
         self.currentDisplayEntities.append(HealthBar((50,50)))
@@ -150,3 +151,7 @@ class Hud:
     def draw(self):
         for item in self.currentDisplayEntities:
             item.draw()
+            
+    def displayMenu(self, menu):
+        menu.register()
+        self.Menus.append(menu)

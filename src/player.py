@@ -3,6 +3,7 @@ from src.update import *
 from src.constants import *
 from src.utilities import *
 from src.graphics import *
+from src.menus import *
 from src.accessories import *
 import pygame
 import src.globe as globe
@@ -50,9 +51,13 @@ class Player(HealthEntity):
         self.addSprite('falling-left', globe.Loader.getSprite('common', 'protagonist-falling-left'))
         self.addSprite('walk-left', globe.Loader.getSprite('common', 'protagonist-running-left'))
         self.addSprite('walk-right', globe.Loader.getSprite('common', 'protagonist-running-right'))
+        self.addSprite('start-left', globe.Loader.getSprite('common', 'protagonist-starting-left'))
+        self.addSprite('start-right', globe.Loader.getSprite('common', 'protagonist-starting-right'))
         
         self.orientation = 'left'
         self.action = 'stand'
+        
+        self.runTime = 0
         
         self.curSprite = self.getSprite()
         
@@ -147,6 +152,11 @@ class Player(HealthEntity):
         
         self.colRecursionDepth = 0
         
+        if(self.running):
+            self.runTime += elapsedTime
+        else:
+            self.runTime = 0
+        
         self.action = 'stand'
         if(self.fallingTime > 100):
             self.action = 'falling'
@@ -158,6 +168,8 @@ class Player(HealthEntity):
                 self.action = 'falling'
         elif(self.running and self.action == 'stand'):
             self.action = 'walk'
+            if(self.runTime < 400):
+                self.action = 'start'
 
         if(self.getHealth() <= 0):
             self.kill()
@@ -247,7 +259,7 @@ class Player(HealthEntity):
                 correctDistance = min(bottomIntersectDistance, topIntersectDistance, leftIntersectDistance, rightIntersectDistance)
         
                 if(correctDistance >= TILE_SIZE):
-                    print('collision error: No possible collisions found')
+                    pass
                 elif(correctDistance == bottomIntersectDistance and correctDistance < TILE_SIZE):
                     #print('collision bottom')
                     dY = abs(self.npos.bottom - self.pos.bottom)
@@ -325,5 +337,9 @@ class Player(HealthEntity):
                 self.vel = (-1*self.xSpeedLimit, -self.yspeedLimit)
             else:
                 self.vel = (self.xSpeedLimit, -self.yspeedLimit)
-            
-        
+                
+    def kill(self):
+        globe.State.addState('death-scene')
+        globe.State.pauseGame()
+        self.unRegister()
+        globe.Hud.displayMenu(GameOverScreen())
