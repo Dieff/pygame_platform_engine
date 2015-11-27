@@ -95,6 +95,7 @@ class Player(HealthEntity):
         self.weapon.cleanse()
                 
     def update(self, elapsedTime):
+        #print('playe exists')
         self.elapsed = elapsedTime
         self.curSprite.update(elapsedTime)
             
@@ -192,6 +193,19 @@ class Player(HealthEntity):
             pygame.draw.rect(DISPLAYSURF, RED, pygame.Rect(globe.Camera.getDrawPos(item), (32,32)))'''
         
     def tileCollide(self, tiles):
+        counter = 0
+        d=True
+        while d:
+            d = self.doCollision(tiles)
+            counter+=1
+            if(counter > 5):
+                print('ERROR caught in collision detection. crashing prevented. velocity killed cc')
+                self.npos = self.pos
+                self.vel = (0,0)
+                d = False
+        self.setPermanentPosition()
+        
+    def doCollision(self, tiles):
         '''experimental algorithm november 25
            step 1:
             for each side of a potential tile solve for the intersection between side(line segment) and velocity vector
@@ -203,21 +217,7 @@ class Player(HealthEntity):
             now we know where a collision occurs and on which side
            step 5:
             profit
-            
-            
-            RIGHT AND LEFT ARE CURRENTLY BROKEN WHEN COMPARED WITH TOP AND BOTTOM
-            
             '''
-        
-        self.colRecursionDepth +=1
-        if(self.colRecursionDepth > 25):
-            print('ERROR caught in collision detection. crashing prevented. velocity killed')
-            self.npos = self.pos
-            self.setPermanentPosition()
-            self.vel = (0,0)
-            return True
-        
-        
         currentPosition = self.npos
         oldPosition = self.pos
         
@@ -227,6 +227,7 @@ class Player(HealthEntity):
         colHappened = False
         
         self.badTiles = []
+        
         
         for colidedTile in tiles:
             tilePosition = colidedTile.getRect()
@@ -313,12 +314,9 @@ class Player(HealthEntity):
                     self.vel = (0, self.vel[1])
                 
                     colHappened = True
-                
-                
-        if(colHappened):
-            self.tileCollide(tiles)
-        else:
-            self.setPermanentPosition()
+                    
+        return colHappened
+        
         
     def setInvincible(self):
         self.invuln = True

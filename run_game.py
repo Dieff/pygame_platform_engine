@@ -30,9 +30,7 @@ globe.Updater = Updater()
 globe.Area = Area()
 globe.Area.loadArea('test')
 
-Player = Player()
 globe.Camera = Camera()
-globe.Updater.setPlayer(Player)
 globe.Hud = Hud()
 
 globe.State.addState('started')
